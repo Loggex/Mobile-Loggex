@@ -1,12 +1,29 @@
+import 'react-native-gesture-handler';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
+
 import { StyleSheet, Text, View } from 'react-native';
+
+import Login from './src/screens/Login'
+import Introducao from './src/screens/Intro'
+import Main from './src/screens/Main'
+
+const AuthStack = createStackNavigator()
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Mudando arquivos</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <AuthStack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <AuthStack.Screen name="Introducao" component={Introducao} />
+        <AuthStack.Screen name="Login" component={Login} />
+        <AuthStack.Screen name="Main" component={Main} />
+      </AuthStack.Navigator>
+    </NavigationContainer>
   );
 }
 

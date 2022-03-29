@@ -2,11 +2,14 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity, Touchable } from 'react-native';
 import { useNavigate } from 'react-router';
 
-export default function Perfil({ navigation }) {
+export default function Intro({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <Text>Perfil</Text>
+            <Text>Introdução</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+                <Text>Avançar</Text>
+            </TouchableOpacity>
             <StatusBar style="auto" />
         </View>
     )
