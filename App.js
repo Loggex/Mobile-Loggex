@@ -1,7 +1,11 @@
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { StatusBar } from 'expo-status-bar';
+import * as Font from 'expo-font';
+import AppLoading from 'expo-app-loading';
+import React, { useState } from 'react';
+
+import useFonts from './hooks/useFonts';
 
 import { StyleSheet, Text, View } from 'react-native';
 
@@ -12,6 +16,21 @@ import Main from './src/screens/Main'
 const AuthStack = createStackNavigator()
 
 export default function App() {
+
+  const [IsReady, SetIsReady] = useState(false);
+  const LoadFonts = async () => {
+    await useFonts();
+  };
+
+  if (!IsReady) {
+    return (
+      <AppLoading
+        startAsync={LoadFonts}
+        onFinish={() => SetIsReady(true)}
+        onError={() => { }}
+      />
+    );
+  }
   return (
     <NavigationContainer>
       <AuthStack.Navigator
