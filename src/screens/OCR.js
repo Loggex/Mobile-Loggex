@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import * as MediaLibrary from 'expo-media-library';
 import { Camera } from 'expo-camera';
+import { LerConteudoImagem } from '../services/leituraOCR';
 
 export default function OCR() {
     const [hasPermission, setHasPermission] = useState(null);
@@ -27,6 +28,11 @@ export default function OCR() {
         const foto = await ref.current.takePictureAsync()
         // const asset = await MediaLibrary.createAssetAsync(foto.uri)
         console.debug(foto)
+        var formData = new FormData();
+
+        formData.append('imagem', foto.uri)
+        let resultadoOCR = LerConteudoImagem(formData)
+        console.debug(resultadoOCR)
     }
 
     return (
