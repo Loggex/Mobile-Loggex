@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity, Touchable } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Touchable, Stack } from 'react-native';
 import { useNavigate } from 'react-router';
 
 import AppLoading from 'expo-app-loading';
@@ -16,6 +16,7 @@ import {
     Image,
     TextInput,
 } from 'react-native';
+import Checklist from './Checklist';
 
 export default function ListaRotas({ navigation }) {
 
@@ -35,15 +36,25 @@ export default function ListaRotas({ navigation }) {
 
             <Image source={require('../assets/caminhaozinho.png')}
                 style={styles.MainImgLogin}
-                />
-            
+            />
+
             <Text style={styles.TextMain}>Nenhuma rota foi encontrada. Escaneie a placa do veículo para ter acesso a todos os serviços programados</Text>
 
 
 
             <StatusBar style="auto" />
-        
-        
+
+            <TouchableOpacity
+                style={styles.btnLogin}
+                onPress={() => navigation.navigate("Checklist")}
+            >
+
+                <Text style={styles.LoginText}>Entrar</Text>
+
+            </TouchableOpacity>
+
+
+
         </View>
     )
 }

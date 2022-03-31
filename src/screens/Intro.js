@@ -43,12 +43,12 @@ export default function Intro({ navigation }) {
 
                 <Text style={styles.textMain}>Obtenha informações de seu veículo e informe seu gestor.</Text>
 
-                <View style={styles.boxIniciar}>
 
-                <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+                <TouchableOpacity style={styles.boxIniciar} onPress={() => navigation.navigate("Login")}>
+                <View>
                     <Text style={styles.textLogin}>Iniciar</Text>
-                </TouchableOpacity>
                 </View>
+                </TouchableOpacity>
             </View>
 
 
