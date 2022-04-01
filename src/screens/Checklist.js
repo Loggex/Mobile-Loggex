@@ -2,11 +2,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Image, TextInput } from 'react-native';
 import AppLoading from 'expo-app-loading';
-import React, {useEffect} from 'react';
+import React, { useEffect, useState } from 'react';
 /* import Animated, {useSharedValue, useAnimatedStyle,} from 'react-native-reanimated'; */
 import { useFonts, Sen_400Regular, Sen_800ExtraBold, Sen_700Bold } from '@expo-google-fonts/sen';
 import { Poppins_700Bold } from '@expo-google-fonts/poppins';
 import { LinearGradient } from 'expo-linear-gradient';
+import { CheckBox } from 'react-native-elements';
 
 
 //navigation
@@ -21,6 +22,7 @@ import Perfil from './Perfil'
 
 
 export default function Checklist({ navigation }) {
+    const [isSelected, setSelected] = useState(false)
     let [fontsLoaded] = useFonts({
         Sen_700Bold,
         Sen_400Regular
@@ -58,12 +60,21 @@ export default function Checklist({ navigation }) {
                 </View>
 
             </View>
-                <View style={styles.containerChecklst}>
-                    <Text style={styles.mensagemCheck}>Marque apenas os componentes que se encontram em condições adequadas para a execução do serviço.</Text>
-                    <Animated.Text>
-                        Lorem Ipsum
-                    </Animated.Text>
+            <View style={styles.containerChecklist}>
+                <Text style={styles.mensagemCheck}>Marque apenas os componentes que se encontram em condições adequadas para a execução do serviço.</Text>
+                <View style={styles.checkboxContainer}>
+                    <CheckBox
+                         checkedIcon="check"
+                         uncheckedIcon="square-o"
+                         checkedColor="green"
+                         uncheckedColor="red"
+                         checked={isSelected}
+                         onPress={() => setSelected(!isSelected)}
+                        style={styles.checkbox}
+                    />
+                    <Text style={styles.label}>Pneu</Text>
                 </View>
+            </View>
 
 
             <StatusBar style="auto" />
@@ -84,7 +95,7 @@ const styles = StyleSheet.create({
 
     gradiente: {
         paddingTop: 40,
-        height:160
+        height: 160
 
     },
 
@@ -102,7 +113,7 @@ const styles = StyleSheet.create({
         marginHorizontal: '4%',
     },
     titulos: {
-        
+
         height: 150,
         width: '100%',
     },
@@ -113,21 +124,31 @@ const styles = StyleSheet.create({
         flexDirection: 'row-reverse',
         justifyContent: 'space-between',
         marginHorizontal: '4%',
-        paddingVertical:10,
+        paddingVertical: 10,
     },
 
-    containerChecklst: {
+    containerChecklist: {
         color: '#000',
-        paddingTop:30,
+        paddingTop: 30,
         width: '90%',
         height: 700,
         marginHorizontal: '4%'
     },
 
-    mensagemCheck:{
+    mensagemCheck: {
         fontFamily: 'Sen_400Regular',
-        fontSize:16,
-        color:'#888888'
-    }
+        fontSize: 16,
+        color: '#888888'
+    },
+    checkbox: {
+    },
+
+    checkboxContainer: {
+        flexDirection: "row",
+        alignItems:'center'
+    },
+
+    label: {
+    },
 
 });
