@@ -3,11 +3,14 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import * as MediaLibrary from 'expo-media-library';
 import { Camera } from 'expo-camera';
 import { LerConteudoImagem } from '../services/leituraOCR';
+import * as FileSystem from 'expo-file-system';
 
 export default function OCR() {
     const [hasPermission, setHasPermission] = useState(null);
     const [type, setType] = useState(Camera.Constants.Type.back);
     const [status, requestPermission] = MediaLibrary.usePermissions();
+    const [placa, setPlaca] = useState('')
+    const [teste, setTeste] = useState({})
     const ref = useRef(null)
 
     useEffect(() => {
@@ -26,13 +29,34 @@ export default function OCR() {
 
     const TakePicture = async () => {
         const foto = await ref.current.takePictureAsync()
-        // const asset = await MediaLibrary.createAssetAsync(foto.uri)
-        console.debug(foto)
-        var formData = new FormData();
+        const options = {
+            httpMethod: 'POST',
+            uploadType: FileSystem.FileSystemUploadType.MULTIPART,
+            fieldName: 'file',
+            headers: {
+                "Content-Type": "multipart/form-data",
+                "Ocp-Apim-Subscription-Key": "65679d72ba0245bbacadf9420515503d"
+            }
+        }
 
-        formData.append('imagem', foto.uri)
-        let resultadoOCR = LerConteudoImagem(formData)
-        console.debug(resultadoOCR)
+        await FileSystem.uploadAsync("https://ocr-loggex.cognitiveservices.azure.com/vision/v3.2/ocr?language=pt&detectOrientation=true&model-version=latest", foto.uri, options)
+            .then(response => { console.debug(response.body) })
+
+        // setTeste(response.body)
+        // console.debug(response)
+        // console.debug(teste)
+
+        // response.body.regions.forEach(region => {
+        //     region.lines.forEach(line => {
+        //         line.words.forEach(word => {
+        //             if (word.text.length === 7) {
+        //                 setPlaca(word.text)
+        //             }
+        //         })
+        //     })
+        // })
+
+        // console.log(placa)
     }
 
     return (
