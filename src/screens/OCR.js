@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import * as MediaLibrary from 'expo-media-library';
 import { Camera } from 'expo-camera';
-import { LerConteudoImagem } from '../services/leituraOCR';
 import * as FileSystem from 'expo-file-system';
+import { Modalize } from 'react-native-modalize';
+import imgCaminhao from '../assets/caminhao.png';
 
 export default function OCR() {
     const [hasPermission, setHasPermission] = useState(null);
@@ -11,7 +12,9 @@ export default function OCR() {
     const [status, requestPermission] = MediaLibrary.usePermissions();
     const [placa, setPlaca] = useState('')
     const [teste, setTeste] = useState({})
+
     const ref = useRef(null)
+    const modalizeRef = useRef(null)
 
     useEffect(() => {
         (async () => {
@@ -27,8 +30,17 @@ export default function OCR() {
         return <Text>Sem acesso à camera</Text>;
     }
 
+    function onOpen() {
+        modalizeRef.current?.open();
+    }
+
     const TakePicture = async () => {
         const foto = await ref.current.takePictureAsync()
+
+        onOpen()
+
+        let resultado;
+
         const options = {
             httpMethod: 'POST',
             uploadType: FileSystem.FileSystemUploadType.MULTIPART,
@@ -39,28 +51,67 @@ export default function OCR() {
             }
         }
 
+
         await FileSystem.uploadAsync("https://ocr-loggex.cognitiveservices.azure.com/vision/v3.2/ocr?language=pt&detectOrientation=true&model-version=latest", foto.uri, options)
-            .then(response => { console.debug(response.body) })
+            .then(response => {
+                resultado = FiltrarOCR(response.body);
+            })
+            .catch(erro => console.debug(erro))
 
-        // setTeste(response.body)
-        // console.debug(response)
-        // console.debug(teste)
+        console.debug(resultado)
+    }
 
-        // response.body.regions.forEach(region => {
-        //     region.lines.forEach(line => {
-        //         line.words.forEach(word => {
-        //             if (word.text.length === 7) {
-        //                 setPlaca(word.text)
-        //             }
-        //         })
-        //     })
-        // })
+    const FiltrarOCR = (obj) => {
+        let resultado;
+        let teste = JSON.parse(obj)
+        console.debug("foi aqui")
+        console.debug(teste.language)
 
-        // console.log(placa)
+        teste.regions.forEach(region => {
+            region.lines.forEach(line => {
+                line.words.forEach(word => {
+                    if (word.text.length === 7) {
+                        resultado = word.text;
+                    }
+                });
+            });
+        });
+
+        return resultado;
     }
 
     return (
         <View style={styles.container}>
+            <Modalize
+                ref={modalizeRef}
+                snapPoint={500}
+            >
+                <Image style={styles.image} source={imgCaminhao} />
+                <View style={styles.modal} >
+                    <View style={styles.txtModal}>
+                        <Text style={styles.tituloModal}>
+                            Veículo encontrado:
+                        </Text>
+                        <Text style={styles.nomeVeiculo}>
+                            Volvo Fh 540 6x4
+                        </Text>
+                    </View>
+
+                    <View style={styles.modalBtns}>
+                        <TouchableOpacity style={styles.btnModal}>
+                            <Text style={styles.txtBtnModal1}>
+                                Confirmar
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <Text style={styles.txtBtnModal2}>
+                                Tentar novamente
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+
+                </View>
+            </Modalize>
             <View style={styles.txtOcr}>
                 <Text style={styles.titulo}>Escanear placa</Text>
                 <Text style={styles.desc}>Aponte sua a câmera para a placa do veículo de modo que ela encaixe na região abaixo:</Text>
@@ -138,5 +189,73 @@ const styles = StyleSheet.create({
         fontFamily: 'Poppins_700Bold',
         fontSize: 18,
         color: '#FFF'
+    },
+
+    modal: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexDirection: 'column',
+        padding: '4%'
+    },
+
+    image: {
+        width: '100%',
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        height: 230
+    },
+
+    tituloModal: {
+        fontFamily: 'Sen_400Regular',
+        fontSize: 20
+    },
+
+    nomeVeiculo: {
+        fontFamily: 'Sen_700Bold',
+        fontSize: 30
+    },
+
+    txtModal: {
+        width: '100%',
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexDirection: 'column',
+        height: 70
+    },
+
+    btnModal: {
+        display: 'flex',
+        width: '100%',
+        height: 51,
+        backgroundColor: '#060657',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 2
+    },
+
+    txtBtnModal1: {
+        fontSize: 16,
+        color: '#FFF',
+        fontFamily: 'Poppins_700Bold',
+    },
+
+    modalBtns: {
+        width: '100%',
+        marginTop: '20%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        height: 90
+    },
+
+    txtBtnModal2: {
+        fontFamily: 'Sen_400Regular',
+        color: '#060657',
+        fontSize: 17
     }
+
 });
