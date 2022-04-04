@@ -8,7 +8,6 @@ const bottomTab = createBottomTabNavigator()
 import OCR from './OCR'
 import ListaRotas from './ListaRotas'
 import Perfil from './Perfil'
-import Checklist from './Checklist';
 
 export default function Main() {
     return (

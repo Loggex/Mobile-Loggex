@@ -1,9 +1,11 @@
+
+import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import AppLoading from 'expo-app-loading';
 import { useFonts, Sen_400Regular, Sen_800ExtraBold, Sen_700Bold } from '@expo-google-fonts/sen';
 import { Poppins_700Bold } from '@expo-google-fonts/poppins';
-
+import { TextInputMask } from 'react-native-masked-text'
 
 
 import {
@@ -18,6 +20,7 @@ import {
 
 
 export default function Login({ navigation }) {
+    const [cell, setCell] = useState('');
     let [fontsLoaded] = useFonts({
         Sen_700Bold,
         Poppins_700Bold
@@ -26,6 +29,7 @@ export default function Login({ navigation }) {
     if (!fontsLoaded) {
         return <AppLoading />;
     }
+
 
 
 
@@ -42,10 +46,24 @@ export default function Login({ navigation }) {
             </View>
 
             <View style={styles.containerLogin}>
-                <TextInput style={styles.inputLogin}
+                {/* <TextInput style={styles.inputLogin}
                     placeholder='(00) 1234-56789'
                     placeholderTextColor='#B8B8B8'
                     keyboardType='number-pad'
+                /> */}
+
+                <TextInputMask
+                    style={styles.inputLogin}
+                    type={'cel-phone'}
+                    options={{
+                        maskType: 'BRL',
+                        withDDD: true,
+                        dddMask: '(99) '
+                    }}
+                    placeholder='ex: (11) 12345-6789'
+                    value={cell}
+                    onChangeText={text => setCell(text)}
+
                 />
 
 
@@ -93,7 +111,7 @@ const styles = StyleSheet.create({
         borderColor: '#F2F1FB',
         borderWidth: 1,
         borderRadius: 3,
-        paddingLeft:20
+        paddingLeft: 20
     },
 
     TextMain: {

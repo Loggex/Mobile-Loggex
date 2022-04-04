@@ -3,21 +3,13 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Image, TextInput } from 'react-native';
 import AppLoading from 'expo-app-loading';
 import React, { useEffect, useState } from 'react';
-/* import Animated, {useSharedValue, useAnimatedStyle,} from 'react-native-reanimated'; */
 import { useFonts, Sen_400Regular, Sen_800ExtraBold, Sen_700Bold } from '@expo-google-fonts/sen';
-import { Poppins_700Bold } from '@expo-google-fonts/poppins';
+import { Poppins_700Bold, Poppins_400Regular } from '@expo-google-fonts/poppins';
 import { LinearGradient } from 'expo-linear-gradient';
 import { CheckBox } from 'react-native-elements';
 
 
-//navigation
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-const bottomTab = createBottomTabNavigator()
-
-import OCR from './OCR'
-import ListaRotas from './ListaRotas'
-import Perfil from './Perfil'
 
 
 
@@ -25,7 +17,8 @@ export default function Checklist({ navigation }) {
     const [isSelected, setSelected] = useState(false)
     let [fontsLoaded] = useFonts({
         Sen_700Bold,
-        Sen_400Regular
+        Sen_400Regular,
+        Poppins_400Regular
     });
 
     if (!fontsLoaded) {
@@ -67,18 +60,27 @@ export default function Checklist({ navigation }) {
                          checkedIcon="check"
                          uncheckedIcon="square-o"
                          checkedColor="green"
-                         uncheckedColor="red"
                          checked={isSelected}
                          onPress={() => setSelected(!isSelected)}
                         style={styles.checkbox}
                     />
+                    <View style={styles.foto}>
+
                     <Text style={styles.label}>Pneu</Text>
+                    <TouchableOpacity onPress={() => navigation.navigate("FotoPeca")}>
+
+                    <Image source={require('../assets/Fotinho.png')} />
+                    </TouchableOpacity>
+                    </View>
                 </View>
             </View>
 
 
             <StatusBar style="auto" />
+
+            
         </ScrollView >
+        
     )
 
 }
@@ -131,8 +133,8 @@ const styles = StyleSheet.create({
         color: '#000',
         paddingTop: 30,
         width: '90%',
-        height: 700,
-        marginHorizontal: '4%'
+        marginHorizontal: '4%',
+        flexDirection:'column'
     },
 
     mensagemCheck: {
@@ -141,14 +143,27 @@ const styles = StyleSheet.create({
         color: '#888888'
     },
     checkbox: {
+        
     },
 
     checkboxContainer: {
         flexDirection: "row",
-        alignItems:'center'
+        alignItems:'center',
+        width:'100%',
+        height:60
     },
 
     label: {
+        fontFamily:'Poppins_400Regular',
+        fontSize:17,
+        paddingTop:3
     },
+
+    foto:{
+        width:'75%',
+        flexDirection:'row',
+        justifyContent:'space-between'
+    }
+
 
 });
