@@ -1,14 +1,38 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity, Touchable } from 'react-native';
+import { StyleSheet, Text, View,Button, Icon, TouchableOpacity, Touchable } from 'react-native';
 import { useNavigate } from 'react-router';
+import { AsyncStorage } from 'react-native';
 
 export default function Perfil({ navigation }) {
 
+    const logout = (navigation) => {
+        AsyncStorage.setItem("TOKEN","").then(() => {
+            navigation.reset({
+                index: 0,
+                routes: [{name: "Login"}]
+            })
+        }).catch((error) => {
+            console.log(error)
+            Alert.alert("Erro ao sair")
+        })
+    }
+
+
     return (
-        <View style={styles.container}>
-            <Text>Perfil</Text>
-            <StatusBar style="auto" />
-        </View>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>Profile!</Text>
+        <Button
+            icon={
+              <Icon
+                name="check"
+                size={15}
+                color="white"
+              />
+            }
+            title="Sair"
+            onPress={() => logout(navigation)}
+          />
+      </View>
     )
 }
 
