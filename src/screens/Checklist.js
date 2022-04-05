@@ -7,6 +7,7 @@ import { useFonts, Sen_400Regular, Sen_800ExtraBold, Sen_700Bold } from '@expo-g
 import { Poppins_700Bold, Poppins_400Regular } from '@expo-google-fonts/poppins';
 import { LinearGradient } from 'expo-linear-gradient';
 import { CheckBox } from 'react-native-elements';
+import { SafeAreaView } from 'react-native';
 
 
 
