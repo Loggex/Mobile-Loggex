@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Sen_700Bold',
         color: '#fff',
         fontSize: 30,
-        marginHorizontal: '4%',
+        paddingHorizontal: '4%',
     },
     titulos: {
 
@@ -126,15 +126,15 @@ const styles = StyleSheet.create({
     box: {
         flexDirection: 'row-reverse',
         justifyContent: 'space-between',
-        marginHorizontal: '4%',
+        paddingHorizontal: '4%',
         paddingVertical: 10,
     },
 
     containerChecklist: {
         color: '#000',
         paddingTop: 30,
-        width: '90%',
-        marginHorizontal: '4%',
+        width: '100%',
+        paddingHorizontal: '4%',
         flexDirection:'column'
     },
 

@@ -7,6 +7,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { ScrollView } from 'react-native';
 import { useFonts, Sen_400Regular, Sen_800ExtraBold, Sen_700Bold } from '@expo-google-fonts/sen';
 import { Poppins_700Bold } from '@expo-google-fonts/poppins';
+import Hr from "hr-native";
 
 
 
@@ -100,8 +101,34 @@ export default function Perfil({ navigation }) {
             <View style={styles.containerConteudoInformacoes}>
                 <Text style={styles.textNome}>José João Barros</Text>
                 <Text style={styles.textEmpresa}>Senai Transportes</Text>
+                <Hr lineStyle={{
+                    backgroundColor: "#C0C0C0",
+                    height: 1,
+                    with: '100%',
+                    marginTop: 30
+
+                }} />
+
             </View>
 
+            <View style={styles.containerInformacoes}>
+
+                <View>
+
+                <Text style={styles.Email}>E-mail</Text>
+                <Text style={styles.textEmail}>josejoaobarros132@gmail.com</Text>
+                </View>
+
+                <View style={styles.containerVeiculo}>
+
+                    <Text style={styles.textVeiculo}>Veiculo</Text>
+
+
+
+                </View>
+
+
+            </View>
 
 
 
@@ -126,8 +153,8 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
 
-    containerPerfil:{
-        width:'100%',
+    containerPerfil: {
+        width: '100%',
         height: 370
     },
 
@@ -167,15 +194,48 @@ const styles = StyleSheet.create({
         fontSize: 22,
         fontFamily: 'Sen_400Regular',
         color: '#000',
-        paddingTop:20
+        paddingTop: 20
     },
 
     containerConteudoInformacoes: {
         width: '100%',
-        height:160,
-        backgroundColor:'#c4c4c4',
-        justifyContent: 'center',
+        height: 160,
+/*         backgroundColor:'#c4c4c4',
+ */        justifyContent: 'center',
         alignItems: 'center',
+        paddingHorizontal: '4%',
+    },
+
+    containerInformacoes: {
+        width: '100%',
+        paddingHorizontal: '4%',
+        flexDirection: 'row',
+        marginLeft: 5,
+        flexDirection: 'column'
+    },
+
+    Email: {
+        color: '#B0B0B0',
+        fontSize: 15,
+        fontFamily: 'Sen_400Regular'
+    },
+
+    textEmail: {
+        fontSize: 15,
+        fontFamily: 'Sen_400Regular',
+        color: '#000',
+        paddingLeft: 38
+    },
+
+    containerVeiculo: {
+
+    },
+
+    textVeiculo: {
+        fontFamily: 'Sen_700Bold',
+        fontSize: 18
     }
+
+
 
 });
