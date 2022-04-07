@@ -64,14 +64,14 @@ export default function OCR() {
     const FiltrarOCR = (obj) => {
         let resultado;
         let teste = JSON.parse(obj)
-        console.debug("foi aqui")
-        console.debug(teste.language)
+        // console.debug("foi aqui")
+        // console.debug(teste.language)
 
         teste.regions.forEach(region => {
             region.lines.forEach(line => {
                 line.words.forEach(word => {
-                    if (word.text.length === 7) {
-                        resultado = word.text;
+                    if (word.text.length >= 7 && isNaN(Number(word.text.slice(-2))) !== true) {
+                        resultado = word.text.slice(-7);
                     }
                 });
             });
