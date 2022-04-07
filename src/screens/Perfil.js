@@ -113,10 +113,10 @@ export default function Perfil({ navigation }) {
 
             <View style={styles.containerInformacoes}>
 
-                <View>
+                <View style={styles.containerEmail}>
 
-                <Text style={styles.Email}>E-mail</Text>
-                <Text style={styles.textEmail}>josejoaobarros132@gmail.com</Text>
+                    <Text style={styles.Email}>E-mail</Text>
+                    <Text style={styles.textEmail}>josejoaobarros132@gmail.com</Text>
                 </View>
 
                 <View style={styles.containerVeiculo}>
@@ -174,8 +174,6 @@ const styles = StyleSheet.create({
         width: '100%',
         alignItems: 'center',
         height: 210
-        /*         justifyContent:'center'
-         */
     },
 
     atualizarFoto: {
@@ -214,6 +212,11 @@ const styles = StyleSheet.create({
         flexDirection: 'column'
     },
 
+
+    containerEmail: {
+        flexDirection:'row',
+    },
+
     Email: {
         color: '#B0B0B0',
         fontSize: 15,
@@ -228,7 +231,8 @@ const styles = StyleSheet.create({
     },
 
     containerVeiculo: {
-
+        paddingTop:30,
+        
     },
 
     textVeiculo: {
