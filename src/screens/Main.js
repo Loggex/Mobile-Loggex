@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image } from 'react-native';
-
+import { FontAwesome5, AntDesign } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const bottomTab = createBottomTabNavigator()
@@ -14,12 +14,17 @@ export default function Main() {
         <View style={styles.container}>
             <bottomTab.Navigator
                 initialRouteName="OCR"
+                style={styles.tabNavigator}
 
                 screenOptions={({ route }) => ({
                     tabBarIcon: () => {
                         if (route.name === 'OCR') {
                             return (
-                                <Text>OCR</Text>
+                                <View style={styles.aba}>
+                                    <AntDesign name="scan1" size={26} color="black" />
+                                    <Text style={styles.txtAba}>Placa</Text>
+                                </View>
+
                             )
                         }
                         if (route.name === 'Perfil') {
@@ -29,7 +34,7 @@ export default function Main() {
                         }
                         if (route.name === 'ListaRotas') {
                             return (
-                                <Text>Rotas</Text>
+                                <FontAwesome5 name="route" size={26} color="black" />
                             )
                         }
                     },
@@ -38,7 +43,7 @@ export default function Main() {
                     tabBarShowLabel: false,
                     tabBarActiveBackgroundColor: '#FFFFF',
                     tabBarInactiveBackgroundColor: '#FFFFF',
-                    tabBarStyle: { height: 50 }
+                    tabBarStyle: { height: 60 }
                 })}
             >
                 <bottomTab.Screen name="ListaRotas" component={ListaRotas} />
@@ -54,4 +59,15 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
     },
+
+    aba: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
+    },
+
+    txtAba: {
+        fontFamily: 'Sen_400Regular',
+        fontSize: 12
+    }
 });
