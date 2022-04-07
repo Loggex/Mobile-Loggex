@@ -45,20 +45,11 @@ export default function Intro({ navigation }) {
 
 
                 <TouchableOpacity style={styles.boxIniciar} onPress={() => navigation.navigate("Login")}>
-                <View>
-                    <Text style={styles.textLogin}>Iniciar</Text>
-                </View>
+                    <View>
+                        <Text style={styles.textLogin}>Iniciar</Text>
+                    </View>
                 </TouchableOpacity>
             </View>
-
-
-
-
-
-
-
-
-
             <StatusBar style="auto" />
         </View>
     )
@@ -80,7 +71,6 @@ const styles = StyleSheet.create({
     imagemBack: {
         width: '100%',
         height: 260
-
     },
 
     boxConteudo: {
@@ -94,19 +84,19 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontFamily: 'Sen_400Regular',
         fontSize: 22,
-        width:'80%',
-        marginTop:20
+        width: '80%',
+        marginTop: 20
 
     },
 
     textLogin: {
-        color: '#fff', 
-        fontSize:18,
-        fontFamily:'Poppins_700Bold',
-        
+        color: '#fff',
+        fontSize: 18,
+        fontFamily: 'Poppins_700Bold',
+
     },
 
-    boxIniciar:{
+    boxIniciar: {
         backgroundColor: '#FF1717',
         width: '80%',
         height: 50,

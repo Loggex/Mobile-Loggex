@@ -91,6 +91,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
 
+    MainImgLogin: {
+        width: 234,
+        height: 62.34
+    },
+
     containerLogin: {
         backgroundColor: '#fff',
         width: '100%',
@@ -98,10 +103,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-
-
-
-
 
     inputLogin: {
         width: '100%',

@@ -44,7 +44,7 @@ export default function Checklist({ navigation }) {
                                 style={styles.btnSair}
                                 onPress={() => navigation.navigate("Main")}
                             >
-                                <Image style={styles.imageVoltar} source={require('../assets/X.png')} />
+                                {/* <Image style={styles.imageVoltar} source={require('../assets/X.png')} /> */}
                             </TouchableOpacity>
                             <Text style={styles.checklistInicial}>Checklist inicial</Text>
                         </View>
