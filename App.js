@@ -12,6 +12,8 @@ import { StyleSheet, Text, View } from 'react-native';
 import Login from './src/screens/Login'
 import Introducao from './src/screens/Intro'
 import Main from './src/screens/Main'
+import Checklist from './src/screens/Checklist';
+import FotoPeca from './src/screens/FotoPeca';
 
 const AuthStack = createStackNavigator()
 
@@ -41,6 +43,8 @@ export default function App() {
         <AuthStack.Screen name="Introducao" component={Introducao} />
         <AuthStack.Screen name="Login" component={Login} />
         <AuthStack.Screen name="Main" component={Main} />
+        <AuthStack.Screen name="Checklist" component={Checklist} />
+        <AuthStack.Screen name="FotoPeca" component={FotoPeca} />
       </AuthStack.Navigator>
     </NavigationContainer>
   );

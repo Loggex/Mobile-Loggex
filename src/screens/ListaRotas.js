@@ -2,8 +2,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Touchable, Image, ScrollView,
 import logo from '../assets/logoLoggex.png';
 import caminhao from '../assets/caminhao.png'
 import { Entypo } from '@expo/vector-icons';
-import DashedLine from 'react-native-dashed-line';
-// import { Platform } from 'react-native';
+import Checklist from './Checklist';
 
 export default function ListaRotas({ navigation }) {
 
@@ -66,6 +65,8 @@ const styles = StyleSheet.create({
     container: {
         flexGrow: 1,
         backgroundColor: '#fff',
+        width: '100%',
+        paddingHorizontal: '4%',
         alignItems: 'center',
         paddingHorizontal: '4%',
     },
