@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image } from 'react-native';
-import { FontAwesome5, AntDesign } from '@expo/vector-icons';
+import { FontAwesome5, AntDesign, Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const bottomTab = createBottomTabNavigator()
@@ -21,7 +21,7 @@ export default function Main() {
                         if (route.name === 'OCR') {
                             return (
                                 <View style={styles.aba}>
-                                    <AntDesign name="scan1" size={26} color="black" />
+                                    <AntDesign name="scan1" size={26} color="#796F6F" />
                                     <Text style={styles.txtAba}>Placa</Text>
                                 </View>
 
@@ -29,12 +29,18 @@ export default function Main() {
                         }
                         if (route.name === 'Perfil') {
                             return (
-                                <Text>Perfil</Text>
+                                <View style={styles.aba}>
+                                    <Ionicons name="person-sharp" size={26} color="#796F6F" />
+                                    <Text style={styles.txtAba}>Perfil</Text>
+                                </View>
                             )
                         }
                         if (route.name === 'ListaRotas') {
                             return (
-                                <FontAwesome5 name="route" size={26} color="black" />
+                                <View style={styles.aba}>
+                                    <FontAwesome5 name="route" size={26} color="#796F6F" />
+                                    <Text style={styles.txtAba}>Rotas</Text>
+                                </View>
                             )
                         }
                     },
@@ -43,7 +49,7 @@ export default function Main() {
                     tabBarShowLabel: false,
                     tabBarActiveBackgroundColor: '#FFFFF',
                     tabBarInactiveBackgroundColor: '#FFFFF',
-                    tabBarStyle: { height: 60 }
+                    tabBarStyle: styles.tabNavigator
                 })}
             >
                 <bottomTab.Screen name="ListaRotas" component={ListaRotas} />
@@ -63,11 +69,17 @@ const styles = StyleSheet.create({
     aba: {
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center'
+        alignItems: 'center',
+        height: '100%',
+        justifyContent: 'space-evenly'
     },
 
     txtAba: {
         fontFamily: 'Sen_400Regular',
         fontSize: 12
+    },
+
+    tabNavigator: {
+        height: 60,
     }
 });

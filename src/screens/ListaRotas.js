@@ -39,13 +39,20 @@ export default function ListaRotas({ navigation }) {
                     <Text style={styles.txtRotas}>Rotas para hoje</Text>
                     <View style={styles.rota}>
                         <View style={styles.conteudoRota}>
-                            <View>
-                                <Text></Text>
-                                <Text></Text>
+                            <View style={styles.viewLocais}>
+                                <View>
+                                    <Text style={styles.txtLocal}>Carapicuíba, SP</Text>
+                                    <Text style={styles.txtHoraData}>18 Mar, 12h00</Text>
+                                </View>
+                                <View>
+                                    <Text style={styles.txtLocal}>Ouro Fino, MG</Text>
+                                    <Text style={styles.txtHoraData}>18 Mar, 16h00</Text>
+                                </View>
                             </View>
                             <View>
-                                <Text></Text>
-                                <Text></Text>
+                                <View></View>
+                                <View></View>
+
                             </View>
                             <View>
                                 <View></View>
@@ -190,7 +197,26 @@ const styles = StyleSheet.create({
     },
 
     linhaRota: {
-        height: '100%'
+        borderStyle: 'dotted',
+        borderWidth: 1,
+        borderRadius: 1,
+    },
 
+    txtLocal: {
+        fontFamily: 'Sen_700Bold',
+        fontSize: 16
+    },
+
+    txtHoraData: {
+        fontFamily: 'Sen_400Regular',
+        fontSize: 14
+    },
+
+    viewLocais:{
+        height: '100%',
+        width: '50%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between'
     }
 });
