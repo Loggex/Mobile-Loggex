@@ -14,6 +14,7 @@ import Introducao from './src/screens/Intro'
 import Main from './src/screens/Main'
 import Checklist from './src/screens/Checklist';
 import FotoPeca from './src/screens/FotoPeca';
+import Rota from './src/screens/Rota';
 
 const AuthStack = createStackNavigator()
 
@@ -45,6 +46,7 @@ export default function App() {
         <AuthStack.Screen name="Main" component={Main} />
         <AuthStack.Screen name="Checklist" component={Checklist} />
         <AuthStack.Screen name="FotoPeca" component={FotoPeca} />
+        <AuthStack.Screen name="Rota" component={Rota} />
       </AuthStack.Navigator>
     </NavigationContainer>
   );

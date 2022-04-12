@@ -29,7 +29,8 @@ export default function ListaRotas({ navigation }) {
                             />
                             <Text style={styles.nomeVeiculo}>Volvo Fh 540 6x4</Text>
                         </View>
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                         onPress={() => navigation.navigate("Rota")}>
                             <Entypo name="chevron-right" size={30} color="black" />
                         </TouchableOpacity>
                     </View>
