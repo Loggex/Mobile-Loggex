@@ -51,7 +51,9 @@ export default function ListaRotas({ navigation }) {
                                 <View></View>
                             </View>
                         </View>
-                        <TouchableOpacity style={styles.btnRota}>
+                        <TouchableOpacity style={styles.btnRota}
+                        
+                        onPress={() => navigation.navigate("Checklist")}>
                             <Text style={styles.txtBtnRota}>Ver mais</Text>
                         </TouchableOpacity>
                     </View>

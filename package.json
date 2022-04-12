@@ -31,6 +31,7 @@
     "react-native": "^0.68.0",
     "react-native-camera": "^4.2.1",
     "react-native-dashed-line": "^1.1.0",
+    "react-native-drop-shadow": "^0.0.4",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "~2.1.0",
     "react-native-hr": "^1.1.4",

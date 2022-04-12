@@ -8,6 +8,8 @@ import { ScrollView } from 'react-native';
 import { useFonts, Sen_400Regular, Sen_800ExtraBold, Sen_700Bold } from '@expo-google-fonts/sen';
 import { Poppins_700Bold } from '@expo-google-fonts/poppins';
 import Hr from "hr-native";
+import DropShadow from "react-native-drop-shadow";
+
 
 
 
@@ -119,11 +121,23 @@ export default function Perfil({ navigation }) {
                     <Text style={styles.textEmail}>josejoaobarros132@gmail.com</Text>
                 </View>
 
-                <View style={styles.containerVeiculo}>
-
+                <View>
                     <Text style={styles.textVeiculo}>Veiculo</Text>
 
+                </View>
+                <View style={styles.containerVeiculo}>
+                    
+                    <View style={styles.boxVeiculo}>
+                        
+                        <Image style={styles.fotoCaminhao} source={require('../assets/fotoCaminhao.png')} />
 
+
+                        <View style={styles.boxText}>
+
+                            <Text style={styles.nomeVeiculo}>Volvo Fh 540 6x4</Text>
+                            <Text style={styles.quilometragem}>Quilometragem: 300 km</Text>
+                        </View>
+                    </View>
 
                 </View>
 
@@ -214,30 +228,64 @@ const styles = StyleSheet.create({
 
 
     containerEmail: {
-        flexDirection:'row',
+        flexDirection: 'row',
     },
 
     Email: {
         color: '#B0B0B0',
         fontSize: 15,
-        fontFamily: 'Sen_400Regular'
+        fontFamily: 'Sen_400Regular',
+
     },
 
     textEmail: {
         fontSize: 15,
         fontFamily: 'Sen_400Regular',
         color: '#000',
-        paddingLeft: 38
+        paddingLeft: 38,
+        textDecorationLine: 'underline'
     },
 
     containerVeiculo: {
-        paddingTop:30,
-        
+        paddingTop: 20,
+        flexDirection: 'row',
+        paddingBottom: 40
+
     },
 
     textVeiculo: {
         fontFamily: 'Sen_700Bold',
+        fontSize: 18,
+        paddingTop: 40
+    },
+
+    boxVeiculo: {
+        width: '100%',
+        flexDirection: 'row',
+        alignItems: 'center',
+
+    },
+
+    boxText: {
+        paddingLeft: 20,
+    },
+
+    nomeVeiculo: {
+        fontFamily: 'Sen_700Bold',
         fontSize: 18
+    },
+
+    quilometragem: {
+        fontSize: 15,
+        fontFamily: 'Sen_400Regular',
+        color: '#b0b0b0'
+    },
+
+    fotoCaminhao: {
+        height: 70,
+        width: 70,
+        borderTopLeftRadius: 5,
+        borderBottomLeftRadius: 5
     }
 
 
