@@ -9,6 +9,10 @@ import { useFonts, Sen_400Regular, Sen_800ExtraBold, Sen_700Bold } from '@expo-g
 import { Poppins_700Bold } from '@expo-google-fonts/poppins';
 import Hr from "hr-native";
 import DropShadow from "react-native-drop-shadow";
+import CardView from 'react-native-cardview';
+
+
+//ATENÇÃO NA BOX VEICULO E NA FOTO DO CAMINHAO
 
 
 
@@ -53,17 +57,7 @@ export default function Perfil({ navigation }) {
         <ScrollView style={styles.container}>
 
 
-            {/* <Button
-            icon={
-                <Icon
-                name="check"
-                size={15}
-                color="white"
-                />
-            }
-            title="Sair"
-            onPress={() => logout(navigation)}
-        /> */}
+
 
 
 
@@ -126,9 +120,9 @@ export default function Perfil({ navigation }) {
 
                 </View>
                 <View style={styles.containerVeiculo}>
-                    
+
                     <View style={styles.boxVeiculo}>
-                        
+
                         <Image style={styles.fotoCaminhao} source={require('../assets/fotoCaminhao.png')} />
 
 
@@ -140,6 +134,58 @@ export default function Perfil({ navigation }) {
                     </View>
 
                 </View>
+
+                <View>
+                    <Text style={styles.textServicoAtual}>Servico atual</Text>
+                </View>
+
+                <View style={styles.containerServicoAtual}>
+                    <View style={styles.boxServico}>
+                        <View style={styles.miniboxDestino}>
+
+                            <Image style={styles.fotoRota} source={require('../assets/rota.png')} />
+
+
+                            <View style={styles.boxText}>
+
+                                <Text style={styles.textDestino}>Destino</Text>
+                                <Text style={styles.textLugar}>Ouro Fino, MG</Text>
+                            </View>
+                        </View>
+                    </View>
+
+
+                </View>
+
+                <Hr lineStyle={{
+                    backgroundColor: "#C0C0C0",
+                    height: 1,
+                    with: '100%',
+                    marginTop: 50
+
+                }} />
+
+
+                <View style={styles.containerSair}>
+
+                    <TouchableOpacity
+                        style={styles.btnLogin}
+                        title="Sair"
+                        onPress={() => logout(navigation)}
+                    >
+
+
+                        <View style={styles.boxSair}>
+
+
+                            <Text style={styles.LoginText}>Sair</Text>
+
+                            <Image source={require('../assets/exit.png')} />
+
+                        </View>
+                    </TouchableOpacity>
+                </View>
+
 
 
             </View>
@@ -249,8 +295,7 @@ const styles = StyleSheet.create({
     containerVeiculo: {
         paddingTop: 20,
         flexDirection: 'row',
-        paddingBottom: 40
-
+        paddingBottom: 40,
     },
 
     textVeiculo: {
@@ -261,9 +306,12 @@ const styles = StyleSheet.create({
 
     boxVeiculo: {
         width: '100%',
+        height: 90,
         flexDirection: 'row',
         alignItems: 'center',
-
+        elevation: 3,
+        /*                 backgroundColor:'grey'
+         */
     },
 
     boxText: {
@@ -282,11 +330,94 @@ const styles = StyleSheet.create({
     },
 
     fotoCaminhao: {
-        height: 70,
-        width: 70,
+        height: 82,
+        width: '20%',
         borderTopLeftRadius: 5,
-        borderBottomLeftRadius: 5
+        borderBottomLeftRadius: 5,
+        marginTop: 4
+    },
+
+    containerServicoAtual: {
+        width: '100%',
+        height: 90,
+        flexDirection: 'row',
+        alignItems: 'center',
+        elevation: 3,
+        /*         backgroundColor:'grey'
+         */
+
+    },
+
+    textServicoAtual: {
+        fontFamily: 'Sen_700Bold',
+        fontSize: 18,
+        paddingTop: 10
+    },
+
+    boxServico: {
+
+/*         backgroundColor:'grey',
+ */        width: '99%',
+        height: '100%',
+        justifyContent: 'center',
+        borderBottomWidth: 7,
+        borderBottomColor: '#060657',
+        borderBottomLeftRadius: 5,
+        borderBottomRightRadius: 5
+
+
+    },
+
+    textDestino: {
+        fontSize: 15,
+        fontFamily: 'Sen_400Regular',
+        color: '#b0b0b0'
+    },
+
+    textLugar: {
+        fontFamily: 'Sen_700Bold',
+        fontSize: 18
+    },
+
+    fotoRota: {
+
+    },
+
+    miniboxDestino: {
+        flexDirection: 'row',
+        paddingLeft: 20,
+    },
+
+    btnLogin: {
+        backgroundColor: '#FF1717',
+        width: '100%',
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 50,
+        borderRadius: 2,
+        flexDirection: 'row',
+    },
+
+    LoginText: {
+        color: '#fff',
+        fontFamily: 'Poppins_700Bold',
+        fontSize: 16,
+        paddingRight:10
+
+    },
+
+    boxSair: {
+        flexDirection: 'row',
+        width:'100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    containerSair:{
+        paddingBottom:40
     }
+
 
 
 
