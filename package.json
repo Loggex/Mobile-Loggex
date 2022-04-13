@@ -43,6 +43,7 @@
     "react-native-reanimated": "~2.3.1",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
+    "react-native-sms-verifycode": "^2.4.3",
     "react-native-web": "0.17.1",
     "react-router-dom": "^6.3.0"
   },
