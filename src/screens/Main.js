@@ -14,7 +14,8 @@ export default function Main() {
     return (
         <View style={styles.container}>
             <StatusBar
-                backgroundColor='#fff'
+                style='dark'
+                backgroundColor='#FFF'
             />
             <bottomTab.Navigator
                 initialRouteName="OCR"

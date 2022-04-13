@@ -4,7 +4,8 @@ import caminhao from '../assets/caminhao.png'
 import { Entypo } from '@expo/vector-icons';
 import DashedLine from 'react-native-dashed-line';
 import PagerView from 'react-native-pager-view';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
+import Veiculo from './Veiculo';
+
 // import { Platform } from 'react-native';
 
 export default function ListaRotas({ navigation }) {
@@ -32,7 +33,7 @@ export default function ListaRotas({ navigation }) {
                             />
                             <Text style={styles.nomeVeiculo}>Volvo Fh 540 6x4</Text>
                         </View>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => navigation.navigate('Veiculo')}>
                             <Entypo name="chevron-right" size={30} color="black" />
                         </TouchableOpacity>
                     </View>
@@ -254,12 +255,13 @@ const styles = StyleSheet.create({
 
     imgLogo: {
         width: 147,
-        height: 39.11
+        height: 39.11,
+        marginTop: '3%'
     },
 
     header: {
         width: '100%',
-        height: 120,
+        height: 110,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
