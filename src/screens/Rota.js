@@ -63,8 +63,75 @@ export default function Rota({ navigation }) {
             </View>
 
             <Image style={styles.imagemrota} source={require('../assets/imagemrota.png')} />
-            
 
+            <View style={styles.containerInformacoes}>
+                <View style={styles.containerConteudo}>
+
+                    <View style={styles.containerOrigem}>
+                        <Text style={styles.textOrigem}>Origem</Text>
+                        <Text style={styles.textLugar}>Carapicuiba, SP</Text>
+
+                    </View>
+                    <View style={styles.boxHorario}>
+
+                        <Text style={styles.textHorario}>18 Mar, 12h00</Text>
+
+                    </View>
+                </View>
+                <View style={styles.containerConteudoDestino}>
+
+                    <View style={styles.containerOrigem}>
+                        <Text style={styles.textOrigem}>Destino</Text>
+                        <Text style={styles.textLugar}>Ouro Fino, SP</Text>
+
+                    </View>
+                    <View style={styles.boxHorario}>
+
+                        <Text style={styles.textHorario}>18 Mar, 17h00</Text>
+
+                    </View>
+                </View>
+
+                <View style={styles.containerCarga}>
+                    <Text style={styles.textOrigem}>Tipo de carga</Text>
+                    <Text style={styles.textLugar}>Alimentos</Text>
+
+                </View>
+
+                <View style={styles.containerDescricao}>
+                    <Text style={styles.textOrigem}>Descrição da carga</Text>
+                    <Text style={styles.textLugar}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus sapien sollicitudin, vestibulum justo in, rutrum lacus. Maecenas eget magna ligula. </Text>
+
+                </View>
+
+                <View style={styles.containerVolume}>
+                    <Text style={styles.textOrigem}>Volume</Text>
+                    <Text style={styles.textLugar}>Não informado</Text>
+
+                </View>
+
+                <View style={styles.containerPeso}>
+                    <Text style={styles.textOrigem}>Peso bruto</Text>
+                    <Text style={styles.textLugar}>16.000 kg</Text>
+
+                </View>
+                
+                <View style={styles.containerPeso}>
+                    <Text style={styles.textOrigem}>Tipo de carroceria</Text>
+                    <Text style={styles.textLugar}>Graneleiro</Text>
+
+                </View>
+                
+
+                <View style={styles.btnInicar}>
+                    
+                <TouchableOpacity style={styles.btnRota}
+                onPress={() => navigation.navigate("Checklist")}>
+                    <Text style={styles.textRota}>Iniciar Rota</Text>
+                </TouchableOpacity>
+
+                </View>
+            </View>
 
 
 
@@ -126,45 +193,111 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
     },
 
-    containerChecklist: {
-        color: '#000',
-        paddingTop: 30,
+
+
+    imagemrota: {
         width: '100%',
-        paddingHorizontal: '4%',
-        flexDirection: 'column'
+        height: 240
     },
 
-    mensagemCheck: {
+    containerInformacoes: {
+        width: '100%',
+        paddingHorizontal: '4%',
+        justifyContent: 'center',
+        paddingTop: 20,
+    },
+
+    containerConteudo: {
+        flexDirection: 'row',
+        height: 60,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+/*         backgroundColor:'#c4c4c4'
+ */    },
+
+    textOrigem: {
         fontFamily: 'Sen_400Regular',
         fontSize: 16,
         color: '#888888'
     },
-    checkbox: {
 
+    textLugar: {
+        fontFamily: 'Sen_400Regular',
+        fontSize: 20,
+        paddingTop:10
     },
 
-    checkboxContainer: {
-        flexDirection: "row",
-        alignItems: 'center',
-        width: '100%',
-        height: 60
+    boxHorario: {
+        borderColor: '#090959',
+        borderWidth: 1,
+        borderRadius: 3,
+        height: 31,
+        width: '32%',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
 
-    label: {
-        fontFamily: 'Poppins_400Regular',
-        fontSize: 17,
-        paddingTop: 3
+    textHorario: {
+        fontFamily: 'Sen_400Regular',
+        fontSize: 15,
+        color: '#090959'
     },
 
-    foto: {
-        width: '75%',
+    containerConteudoDestino: {
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        height: 80,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingTop: 20,
+/*         backgroundColor:'#c4c4c4'
+ */    },
+
+    containerCarga:{
+        paddingTop:30,
+        height:80,
+        /* backgroundColor:'#c4c4c4', */
     },
 
-    imagemrota:{
-        width:'100%'
-    }
+    containerDescricao:{
+        paddingTop:30,
+        height:180,
+    },
+
+    containerVolume:{
+
+        paddingTop:30,
+        height:80,
+    },
+
+
+    containerPeso:{
+        paddingTop:30,
+        height:80,
+    },
+
+    btnRota:{
+        width:'100%',
+        height:60,
+        backgroundColor:'#090959',
+        justifyContent:'center',
+        alignItems:'center',
+    },
+
+    textRota:{
+        fontFamily:'Poppins_700Bold',
+        fontSize:18,
+        color:'#fff'
+    },
+    
+    btnInicar:{
+        paddingBottom:40,
+        paddingTop:30
+    },
+
+
+
+
+
 
 
 
