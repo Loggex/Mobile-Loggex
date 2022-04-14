@@ -12,7 +12,6 @@ import { StyleSheet, Text, View } from 'react-native';
 import Login from './src/screens/Login'
 import Introducao from './src/screens/Intro'
 import Main from './src/screens/Main'
-import Veiculo from './src/screens/Veiculo';
 import ListaRotas from './src/screens/ListaRotas';
 
 const AuthStack = createStackNavigator()
@@ -43,7 +42,6 @@ export default function App() {
         <AuthStack.Screen name="Introducao" component={Introducao} />
         <AuthStack.Screen name="Login" component={Login} />
         <AuthStack.Screen name="Main" component={Main} />
-        <AuthStack.Screen name="Veiculo" component={Veiculo} />
         <AuthStack.Screen name="ListaRotas" component={ListaRotas} />
       </AuthStack.Navigator>
     </NavigationContainer>
