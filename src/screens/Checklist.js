@@ -74,6 +74,7 @@ export default function Checklist({ navigation }) {
                     </TouchableOpacity>
                     </View>
                 </View>
+                
             </View>
 
 

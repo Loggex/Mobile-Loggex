@@ -1,12 +1,19 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import AppLoading from 'expo-app-loading';
 import { useFonts, Sen_400Regular, Sen_800ExtraBold, Sen_700Bold } from '@expo-google-fonts/sen';
 import { Poppins_700Bold } from '@expo-google-fonts/poppins';
-import { TextInputMask } from 'react-native-masked-text'
-import SMSVerifyCode from 'react-native-sms-verifycode'
+import { TextInputMask } from 'react-native-masked-text';
+//import SMSVerifyCode from 'react-native-sms-verifycode';
+import {
+    CodeField,
+    Cursor,
+    useBlurOnFulfill,
+    useClearByFocusCell,
+} from 'react-native-confirmation-code-field';
+
 
 
 import {
@@ -19,8 +26,19 @@ import {
     TextInput,
 } from 'react-native';
 
+
+
 export default function SMS({ navigation }) {
-    const [cell, setCell] = useState('');
+    //const [telefone, setTelefone] = useState("");
+    const CELL_COUNT = 6;
+    const [value, setValue] = useState('');
+    const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
+    const [props, getCellOnLayoutHandler] = useClearByFocusCell({
+        value,
+        setValue,
+    });
+
+
     let [fontsLoaded] = useFonts({
         Sen_700Bold,
         Poppins_700Bold,
@@ -96,15 +114,39 @@ export default function SMS({ navigation }) {
                 <View style={styles.containerSMS}>
 
 
-                    <SMSVerifyCode
+                    {/* <SMSVerifyCode
 
                         verifyCodeLength={6}
                         containerPaddingVertical={10}
                         containerPaddingHorizontal={50}
                         codeFontSize={26}
                         style={styles.inputSMS}
+                    /> */}
+
+                    <CodeField
+                        ref={ref}
+                        {...props}
+                        // Use `caretHidden={false}` when users can't paste a text value, because context menu doesn't appear
+                        value={value}
+                        onChangeText={setValue}
+                        cellCount={CELL_COUNT}
+                        rootStyle={styles.codeFieldRoot}
+                        keyboardType="number-pad"
+                        textContentType="oneTimeCode"
+                        renderCell={({ index, symbol, isFocused }) => (
+                            <Text
+                                key={index}
+                                style={[styles.cell, isFocused && styles.focusCell]}
+                                onLayout={getCellOnLayoutHandler(index)}>
+                                {symbol || (isFocused ? <Cursor /> : null)}
+                            </Text>
+                        )}
                     />
-                    
+
+
+
+
+
                 </View>
 
 
@@ -202,7 +244,29 @@ const styles = StyleSheet.create({
     containerSMS: {
         width: "100%",
         alignItems: 'center'
-    }
+    },
+
+    SMSfodase: {
+        width: '100%'
+    },
+
+    codeFieldRoot: { 
+        width:'100%'
+    },
+
+    cell: {
+        width: '13%',
+        //width:40,
+        height: 40,
+        lineHeight: 38,
+        fontSize: 24,
+        borderWidth: 2,
+        borderColor: '#00000030',
+        textAlign: 'center',
+    },
+    focusCell: {
+        borderColor: '#000',
+    },
 
 })
 

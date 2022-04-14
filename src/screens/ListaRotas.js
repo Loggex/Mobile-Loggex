@@ -30,7 +30,7 @@ export default function ListaRotas({ navigation }) {
                             <Text style={styles.nomeVeiculo}>Volvo Fh 540 6x4</Text>
                         </View>
                         <TouchableOpacity
-                         onPress={() => navigation.navigate("Rota")}>
+                        >
                             <Entypo name="chevron-right" size={30} color="black" />
                         </TouchableOpacity>
                     </View>
@@ -53,7 +53,7 @@ export default function ListaRotas({ navigation }) {
                             </View>
                         </View>
                         <TouchableOpacity style={styles.btnRota}
-                        
+                         onPress={() => navigation.navigate("Rota")}
                         >
                             <Text style={styles.txtBtnRota}>Ver mais</Text>
                         </TouchableOpacity>
