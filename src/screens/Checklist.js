@@ -1,4 +1,3 @@
-
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Image, TextInput } from 'react-native';
 import AppLoading from 'expo-app-loading';
@@ -8,11 +7,7 @@ import { Poppins_700Bold, Poppins_400Regular } from '@expo-google-fonts/poppins'
 import { LinearGradient } from 'expo-linear-gradient';
 import { CheckBox } from 'react-native-elements';
 import { SafeAreaView } from 'react-native';
-
-
-
-
-
+import { MaterialIcons } from '@expo/vector-icons';
 
 export default function Checklist({ navigation }) {
     const [isSelected, setSelected] = useState(false)
@@ -58,20 +53,98 @@ export default function Checklist({ navigation }) {
                 <Text style={styles.mensagemCheck}>Marque apenas os componentes que se encontram em condições adequadas para a execução do serviço.</Text>
                 <View style={styles.checkboxContainer}>
                     <CheckBox
-                         checkedIcon="check"
-                         uncheckedIcon="square-o"
-                         checkedColor="green"
-                         checked={isSelected}
-                         onPress={() => setSelected(!isSelected)}
+                        checkedIcon="check"
+                        uncheckedIcon="square-o"
+                        checkedColor="green"
+                        checked={isSelected}
+                        onPress={() => setSelected(!isSelected)}
                         style={styles.checkbox}
                     />
                     <View style={styles.foto}>
-
-                    <Text style={styles.label}>Pneu</Text>
-                    <TouchableOpacity onPress={() => navigation.navigate("FotoPeca")}>
-
-                    <Image source={require('../assets/Fotinho.png')} />
-                    </TouchableOpacity>
+                        <Text style={styles.label}>Pneu</Text>
+                        <TouchableOpacity onPress={() => navigation.navigate("FotoPeca")}>
+                            <MaterialIcons name="add-photo-alternate" size={33} color="#070757" />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                <View style={styles.checkboxContainer}>
+                    <CheckBox
+                        checkedIcon="check"
+                        uncheckedIcon="square-o"
+                        checkedColor="green"
+                        checked={isSelected}
+                        onPress={() => setSelected(!isSelected)}
+                        style={styles.checkbox}
+                    />
+                    <View style={styles.foto}>
+                        <Text style={styles.label}>Pneu</Text>
+                        <TouchableOpacity onPress={() => navigation.navigate("FotoPeca")}>
+                            <MaterialIcons name="add-photo-alternate" size={33} color="#070757" />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                <View style={styles.checkboxContainer}>
+                    <CheckBox
+                        checkedIcon="check"
+                        uncheckedIcon="square-o"
+                        checkedColor="green"
+                        checked={isSelected}
+                        onPress={() => setSelected(!isSelected)}
+                        style={styles.checkbox}
+                    />
+                    <View style={styles.foto}>
+                        <Text style={styles.label}>Pneu</Text>
+                        <TouchableOpacity onPress={() => navigation.navigate("FotoPeca")}>
+                            <MaterialIcons name="add-photo-alternate" size={33} color="#070757" />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                <View style={styles.checkboxContainer}>
+                    <CheckBox
+                        checkedIcon="check"
+                        uncheckedIcon="square-o"
+                        checkedColor="green"
+                        checked={isSelected}
+                        onPress={() => setSelected(!isSelected)}
+                        style={styles.checkbox}
+                    />
+                    <View style={styles.foto}>
+                        <Text style={styles.label}>Pneu</Text>
+                        <TouchableOpacity onPress={() => navigation.navigate("FotoPeca")}>
+                            <MaterialIcons name="add-photo-alternate" size={33} color="#070757" />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                <View style={styles.checkboxContainer}>
+                    <CheckBox
+                        checkedIcon="check"
+                        uncheckedIcon="square-o"
+                        checkedColor="green"
+                        checked={isSelected}
+                        onPress={() => setSelected(!isSelected)}
+                        style={styles.checkbox}
+                    />
+                    <View style={styles.foto}>
+                        <Text style={styles.label}>Pneu</Text>
+                        <TouchableOpacity onPress={() => navigation.navigate("FotoPeca")}>
+                            <MaterialIcons name="add-photo-alternate" size={33} color="#070757" />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                <View style={styles.checkboxContainer}>
+                    <CheckBox
+                        checkedIcon="check"
+                        uncheckedIcon="square-o"
+                        checkedColor="green"
+                        checked={isSelected}
+                        onPress={() => setSelected(!isSelected)}
+                        style={styles.checkbox}
+                    />
+                    <View style={styles.foto}>
+                        <Text style={styles.label}>Pneu</Text>
+                        <TouchableOpacity onPress={() => navigation.navigate("FotoPeca")}>
+                            <MaterialIcons name="add-photo-alternate" size={33} color="#070757" />
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
@@ -79,9 +152,9 @@ export default function Checklist({ navigation }) {
 
             <StatusBar style="auto" />
 
-            
+
         </ScrollView >
-        
+
     )
 
 }
@@ -135,7 +208,8 @@ const styles = StyleSheet.create({
         paddingTop: 30,
         width: '100%',
         paddingHorizontal: '4%',
-        flexDirection:'column'
+        display: 'flex',
+        flexDirection: 'column',
     },
 
     mensagemCheck: {
@@ -144,26 +218,29 @@ const styles = StyleSheet.create({
         color: '#888888'
     },
     checkbox: {
-        
+
     },
 
     checkboxContainer: {
         flexDirection: "row",
-        alignItems:'center',
-        width:'100%',
-        height:60
+        alignItems: 'center',
+        width: '100%',
+        height: 80,
+        borderBottomColor: '#DFD4D4',
+        borderBottomWidth: 1
     },
 
     label: {
-        fontFamily:'Poppins_400Regular',
-        fontSize:17,
-        paddingTop:3
+        fontFamily: 'Poppins_400Regular',
+        fontSize: 17,
+        paddingTop: 3
     },
 
-    foto:{
-        width:'75%',
-        flexDirection:'row',
-        justifyContent:'space-between'
+    foto: {
+        width: '75%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
     }
 
 

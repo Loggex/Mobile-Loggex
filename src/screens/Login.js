@@ -30,10 +30,6 @@ export default function Login({ navigation }) {
         return <AppLoading />;
     }
 
-
-
-
-
     return (
         <View style={styles.container}>
 
@@ -46,11 +42,7 @@ export default function Login({ navigation }) {
             </View>
 
             <View style={styles.containerLogin}>
-                {/* <TextInput style={styles.inputLogin}
-                    placeholder='(00) 1234-56789'
-                    placeholderTextColor='#B8B8B8'
-                    keyboardType='number-pad'
-                /> */}
+
 
                 <TextInputMask
                     style={styles.inputLogin}
@@ -67,9 +59,11 @@ export default function Login({ navigation }) {
                 />
 
 
+
+
                 <TouchableOpacity
                     style={styles.btnLogin}
-                    onPress={() => navigation.navigate("Main")}
+                    onPress={() => navigation.navigate("SMS")}
                 >
 
                     <Text style={styles.LoginText}>Entrar</Text>

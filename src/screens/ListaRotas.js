@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Touchable, Image, ScrollView, TextInput, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Touchable, Image, ScrollView, TextInput } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import logo from '../assets/logoLoggex.png';
 import caminhao from '../assets/caminhao.png'
 import { Entypo } from '@expo/vector-icons';
@@ -24,12 +25,14 @@ export default function ListaRotas({ navigation }) {
 
     return (
         <View
+
             style={styles.container}>
             <Modalize
                 snapPoint={500}
                 ref={modalizeRef}
                 scrollViewProps={{ showsVerticalScrollIndicator: true }}
             >
+
                 <View style={styles.boxInfo}>
                     <PagerView style={styles.viewPagerModal} initialPage={0}>
                         <Image key='1'
@@ -43,6 +46,12 @@ export default function ListaRotas({ navigation }) {
                         />
                     </PagerView>
                     <View style={styles.boxTabela}>
+                        <View>
+                            <StatusBar
+                                style='dark'
+                                backgroundColor='#FFF'
+                            />
+                        </View>
                         <View style={styles.tabela}>
                             <Text style={styles.nomeVeiculoModal}>Volvo Fh 540 6x4</Text>
                             <View style={styles.boxLinhasTabela}>
@@ -127,7 +136,7 @@ export default function ListaRotas({ navigation }) {
                                 </View>
 
                             </View>
-                            <TouchableOpacity style={styles.btnRota}>
+                            <TouchableOpacity onPress={() => navigation.navigate("Rota")} style={styles.btnRota}>
                                 <Text style={styles.txtBtnRota}>Ver mais</Text>
                             </TouchableOpacity>
                         </View>

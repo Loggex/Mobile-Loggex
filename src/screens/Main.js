@@ -13,10 +13,6 @@ import Perfil from './Perfil'
 export default function Main() {
     return (
         <View style={styles.container}>
-            <StatusBar
-                style='dark'
-                backgroundColor='#FFF'
-            />
             <bottomTab.Navigator
                 initialRouteName="OCR"
                 style={styles.tabNavigator}
