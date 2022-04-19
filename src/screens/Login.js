@@ -6,8 +6,7 @@ import AppLoading from 'expo-app-loading';
 import { useFonts, Sen_400Regular, Sen_800ExtraBold, Sen_700Bold } from '@expo-google-fonts/sen';
 import { Poppins_700Bold } from '@expo-google-fonts/poppins';
 import { TextInputMask } from 'react-native-masked-text'
-
-
+import api from '../services/api';
 import {
     FlatList,
     SafeAreaView,
@@ -17,6 +16,8 @@ import {
     Image,
     TextInput,
 } from 'react-native';
+import axios from 'axios';
+import AsyncStorageLib from '@react-native-async-storage/async-storage';
 
 
 export default function Login({ navigation }) {
@@ -28,6 +29,58 @@ export default function Login({ navigation }) {
 
     if (!fontsLoaded) {
         return <AppLoading />;
+    }
+
+
+    Login = async () => {
+
+        const numero = cell.replace(/\D+/g, "");
+
+        const requisicao = await api.post('/Login/Motorista', {
+            telefone: numero
+        })
+
+        if (requisicao.status == 200) {
+            console.warn('foi')
+        } else {
+            console.warn('não foi')
+
+        }
+
+        // const token = requisicao.data.meuToken
+
+        // AsyncStorage.setItem('senai-SpMedicalGroup-chave-autenticacao', token)
+
+
+
+        // try {
+        //     const numero = cell.replace(/\D+/g, "");
+
+        //     const teste = {
+        //         telefone: numero
+        //     }
+
+        //     console.warn(teste)
+
+        //     let headers = {
+        //         headers: {
+        //             'Accept': 'application/json',
+        //             'Content-Type': 'application/json'
+        //         }
+        //     }
+
+        //     await api.post("/Login/Motorista", teste, headers)
+        //         .then(response => console.debug(JSON.stringify(response)))
+        //         .catch(error => console.debug(JSON.stringify(error)))
+
+        //     // console.debug(requisicao.data)
+
+        // } catch (err) {
+        //     console.debug('erroooo')
+        //     console.debug(err)
+        // }
+
+
     }
 
     return (
@@ -63,7 +116,8 @@ export default function Login({ navigation }) {
 
                 <TouchableOpacity
                     style={styles.btnLogin}
-                    onPress={() => navigation.navigate("SMS")}
+                    // onPress={() => navigation.navigate("SMS")}
+                    onPress={() => Login()}
                 >
 
                     <Text style={styles.LoginText}>Entrar</Text>
