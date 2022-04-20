@@ -18,6 +18,7 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import AsyncStorageLib from '@react-native-async-storage/async-storage';
+// import { Header } from 'react-native/Libraries/NewAppScreen';
 
 
 export default function Login({ navigation }) {
@@ -34,18 +35,36 @@ export default function Login({ navigation }) {
 
     Login = async () => {
 
-        const numero = cell.replace(/\D+/g, "");
+        // const numero = cell.replace(/\D+/g, "");
 
-        const requisicao = await api.post('/Login/Motorista', {
-            telefone: numero
-        })
+        // var teste = {
+        //     method: 'GET',
+        //     headers: {
+        //         "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2FzQGVtYWlsLmNvbSIsImp0aSI6IjMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiIyIiwiVGVsZWZvbmUiOiIxMTk0MjM4NzM3OCIsIkNvZGlnb0xvZ2luIjoiODQwNCIsImV4cCI6MTY1MDQ1NzY2OCwiaXNzIjoiTG9nZ2V4LndlYkFQSSIsImF1ZCI6IkxvZ2dleC53ZWJBUEkifQ.FyhQw4CjePYzFLWZGYRbAHVrZ0_Z6BU8m8xdbmx1hMY"
+        //     }
+        // }
 
-        if (requisicao.status == 200) {
-            console.warn('foi')
-        } else {
-            console.warn('não foi')
+        // await fetch("http://192.168.3.82:5000/api/Motoristas", teste)
+        //     .then(response => console.debug(JSON.stringify(response)))
+        //     .catch(error => console.debug(JSON.stringify(error)))
 
-        }
+        // axios({
+        //     method: 'GET',
+        //     url: "http://192.168.3.82:5000/api/Motoristas",
+        //     headers: {
+        //         "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2FzQGVtYWlsLmNvbSIsImp0aSI6IjMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiIyIiwiVGVsZWZvbmUiOiIxMTk0MjM4NzM3OCIsIkNvZGlnb0xvZ2luIjoiODQwNCIsImV4cCI6MTY1MDQ1NzY2OCwiaXNzIjoiTG9nZ2V4LndlYkFQSSIsImF1ZCI6IkxvZ2dleC53ZWJBUEkifQ.FyhQw4CjePYzFLWZGYRbAHVrZ0_Z6BU8m8xdbmx1hMY"
+        //     }
+        // })
+        //     .then(response => console.debug(JSON.stringify(response)))
+        //     .catch(error => console.debug(JSON.stringify(error)))
+
+
+        // if (requisicao.status == 200) {
+        //     console.warn('foi')
+        // } else {
+        //     console.warn('não foi')
+
+        // }
 
         // const token = requisicao.data.meuToken
 
@@ -53,32 +72,35 @@ export default function Login({ navigation }) {
 
 
 
-        // try {
-        //     const numero = cell.replace(/\D+/g, "");
+        try {
+            const numero = cell.replace(/\D+/g, "");
 
-        //     const teste = {
-        //         telefone: numero
-        //     }
+            const teste = {
+                telefone: numero
+            }
 
-        //     console.warn(teste)
+            // console.warn(teste)
 
-        //     let headers = {
-        //         headers: {
-        //             'Accept': 'application/json',
-        //             'Content-Type': 'application/json'
-        //         }
-        //     }
+            // let headers = {
+            //     headers: {
+            //         'Accept': 'application/json',
+            //         'Content-Type': 'application/json'
+            //     }
+            // }
+            console.debug('iniciou')
 
-        //     await api.post("/Login/Motorista", teste, headers)
-        //         .then(response => console.debug(JSON.stringify(response)))
-        //         .catch(error => console.debug(JSON.stringify(error)))
+            await api.post("/Login/Motorista", { telefone: numero }, { headers: { 'Content-Type': 'application/json' } })
+                .then(response => console.debug(JSON.stringify(response)))
+                .catch(error => console.debug(JSON.stringify(error)))
 
-        //     // console.debug(requisicao.data)
+            console.debug('terminou')
 
-        // } catch (err) {
-        //     console.debug('erroooo')
-        //     console.debug(err)
-        // }
+            // console.debug(requisicao.data)
+
+        } catch (err) {
+            console.debug('erroooo')
+            console.debug(err)
+        }
 
 
     }
@@ -117,7 +139,7 @@ export default function Login({ navigation }) {
                 <TouchableOpacity
                     style={styles.btnLogin}
                     // onPress={() => navigation.navigate("SMS")}
-                    onPress={() => Login()}
+                    onPress={Login}
                 >
 
                     <Text style={styles.LoginText}>Entrar</Text>
