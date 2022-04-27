@@ -87,13 +87,19 @@ export default function Login({ navigation }) {
             //         'Content-Type': 'application/json'
             //     }
             // }
-            console.debug('iniciou')
+            // console.debug('iniciou')
 
-            await api.post("/Login/Motorista", { telefone: numero }, { headers: { 'Content-Type': 'application/json' } })
-                .then(response => console.debug(JSON.stringify(response)))
-                .catch(error => console.debug(JSON.stringify(error)))
+            const requisicao = await api.post("/Login/Motorista", { telefone: numero }, { headers: { 'Content-Type': 'application/json' } })
+            // .then(response => console.debug(JSON.stringify(response)))
+            // .catch(error => console.debug(JSON.stringify(error)))
 
-            console.debug('terminou')
+            console.debug(requisicao.data.token)
+
+            AsyncStorageLib.setItem('login-loggex', JSON.stringify(requisicao.data.token))
+
+            console.debug(AsyncStorageLib.getItem('login-loggex'))
+
+            navigation.navigate("SMS")
 
             // console.debug(requisicao.data)
 

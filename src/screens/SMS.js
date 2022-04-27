@@ -25,6 +25,7 @@ import {
     Image,
     TextInput,
 } from 'react-native';
+import { parseJwt } from '../services/auth';
 
 
 
@@ -67,6 +68,15 @@ export default function SMS({ navigation }) {
         }
         return !error
     } */
+
+    function VerificarCodigo() {
+        if (value === parseJwt().CodigoLogin) {
+            navigation.navigate("Main")
+        } else {
+            console.debug("Código errado, tente novamente")
+        }
+
+    }
 
     return (
 
@@ -148,7 +158,7 @@ export default function SMS({ navigation }) {
 
                 <TouchableOpacity
                     style={styles.btnLogin}
-                    onPress={() => navigation.navigate("Main")}
+                    onPress={() => VerificarCodigo()}
                 >
 
                     <Text style={styles.LoginText}>Entrar</Text>
@@ -246,8 +256,8 @@ const styles = StyleSheet.create({
         width: '100%'
     },
 
-    codeFieldRoot: { 
-        width:'100%'
+    codeFieldRoot: {
+        width: '100%'
     },
 
     cell: {
