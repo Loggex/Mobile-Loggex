@@ -10,18 +10,45 @@ import { Modalize } from 'react-native-modalize';
 import imgVeiculo from '../assets/caminhao.png'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
+import api from '../services/api';
+import { parseJwt, tokenUsuario, usuarioAutenticado } from '../services/auth';
+import AsyncStorageLib from '@react-native-async-storage/async-storage';
 
 
 // import { Platform } from 'react-native';
 
 export default function ListaRotas({ navigation }) {
-
+    const [veiculoAtual, setVeiculoAtual] = useState()
+    const [listaRotas, setListaRotas] = useState()
+    const [token, setToken] = useState('')
     const ref = useRef(null)
     const modalizeRef = useRef(null)
 
     function onOpen() {
         modalizeRef.current?.open();
     }
+
+    async function ListarRotas() {
+        const token = await tokenUsuario()
+
+        console.debug(token)
+
+        const requisicao = await api.get('/rotas', {
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
+        })
+
+        console.debug(requisicao.data)
+
+        console.debug('teste aqui')
+
+        setListaRotas(requisicao.data)
+
+        console.debug(listaRotas)
+    }
+
+    useEffect(ListarRotas, [])
 
     return (
         <View

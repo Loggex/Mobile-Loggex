@@ -1,10 +1,14 @@
 import AsyncStorageLib from "@react-native-async-storage/async-storage";
+import jwtDecode from "jwt-decode";
 
-export const usuarioAutenticado = () => AsyncStorageLib.getItem('login-loggex') !== null;
+export const usuarioAutenticado = async () => await AsyncStorageLib.getItem('login-loggex') !== null;
 
-export const parseJwt = () => {
+export const parseJwt = async () => {
 
-    let base64 = AsyncStorageLib.getItem('login-loggex').split('.')[1];
+    return jwtDecode(await AsyncStorageLib.getItem('login-loggex'));
 
-    return JSON.parse(window.atob(base64));
+}
+
+export const tokenUsuario = async () => {
+    return await AsyncStorageLib.getItem('login-loggex')
 }

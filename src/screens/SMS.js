@@ -69,10 +69,11 @@ export default function SMS({ navigation }) {
         return !error
     } */
 
-    function VerificarCodigo() {
-        if (value === parseJwt().CodigoLogin) {
+    async function VerificarCodigo() {
+        if (value === (await parseJwt()).CodigoLogin) {
             navigation.navigate("Main")
         } else {
+            console.debug((await parseJwt()).CodigoLogin)
             console.debug("Código errado, tente novamente")
         }
 

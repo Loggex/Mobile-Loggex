@@ -7,6 +7,7 @@ import { useFonts, Sen_400Regular, Sen_800ExtraBold, Sen_700Bold } from '@expo-g
 import { Poppins_700Bold } from '@expo-google-fonts/poppins';
 import { TextInputMask } from 'react-native-masked-text'
 import api from '../services/api';
+import jwtDecode from 'jwt-decode';
 import {
     FlatList,
     SafeAreaView,
@@ -18,6 +19,7 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import AsyncStorageLib from '@react-native-async-storage/async-storage';
+import { parseJwt } from '../services/auth';
 // import { Header } from 'react-native/Libraries/NewAppScreen';
 
 
@@ -95,13 +97,12 @@ export default function Login({ navigation }) {
 
             console.debug(requisicao.data.token)
 
-            AsyncStorageLib.setItem('login-loggex', JSON.stringify(requisicao.data.token))
+            await AsyncStorageLib.setItem('login-loggex', requisicao.data.token)
 
-            console.debug(AsyncStorageLib.getItem('login-loggex'))
+            console.debug(await parseJwt())
 
             navigation.navigate("SMS")
 
-            // console.debug(requisicao.data)
 
         } catch (err) {
             console.debug('erroooo')
