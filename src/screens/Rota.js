@@ -10,11 +10,9 @@ import { Poppins_700Bold } from '@expo-google-fonts/poppins';
 
 //ATENÇÃO NA BOX VEICULO E NA FOTO DO CAMINHAO
 
+export default function Rota({ route, navigation }) {
 
-
-
-
-export default function Rota({ navigation }) {
+    const rota = route.params
 
     let [fontsLoaded] = useFonts({
         Sen_700Bold,
@@ -25,12 +23,6 @@ export default function Rota({ navigation }) {
     if (!fontsLoaded) {
         return <AppLoading />;
     }
-
-
-
-
-
-
 
     return (
         <ScrollView style={styles.container}>
@@ -55,10 +47,13 @@ export default function Rota({ navigation }) {
                             >
                                 {/* <Image style={styles.imageVoltar} source={require('../assets/X.png')} /> */}
                             </TouchableOpacity>
-                            <Text style={styles.checklistInicial}>Rota</Text>
+                            <Text style={styles.checklistInicial}>Rota mais próxima</Text>
+                            <View style={styles.viewStatus}>
+                                <Text style={styles.status}>Agendada</Text>
+                            </View>
                         </View>
                         {/* <Text>{item.idTipoVeiculoNavigation.modeloVeiculo}</Text> */}
-                        <Text style={styles.placaVeiculo}>jn028dne</Text>
+
                     </LinearGradient>
                 </View>
 
@@ -71,7 +66,7 @@ export default function Rota({ navigation }) {
 
                     <View style={styles.containerOrigem}>
                         <Text style={styles.textOrigem}>Origem</Text>
-                        <Text style={styles.textLugar}>Carapicuiba, SP</Text>
+                        <Text style={styles.textLugar}>{rota.origem}</Text>
 
                     </View>
                     <View style={styles.boxHorario}>
@@ -84,7 +79,7 @@ export default function Rota({ navigation }) {
 
                     <View style={styles.containerOrigem}>
                         <Text style={styles.textOrigem}>Destino</Text>
-                        <Text style={styles.textLugar}>Ouro Fino, SP</Text>
+                        <Text style={styles.textLugar}>{rota.destino}</Text>
 
                     </View>
                     <View style={styles.boxHorario}>
@@ -96,25 +91,25 @@ export default function Rota({ navigation }) {
 
                 <View style={styles.containerCarga}>
                     <Text style={styles.textOrigem}>Tipo de carga</Text>
-                    <Text style={styles.textLugar}>Alimentos</Text>
+                    <Text style={styles.textLugar}>{rota.carga}</Text>
 
                 </View>
 
                 <View style={styles.containerDescricao}>
                     <Text style={styles.textOrigem}>Descrição da carga</Text>
-                    <Text style={styles.textLugar}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus sapien sollicitudin, vestibulum justo in, rutrum lacus. Maecenas eget magna ligula. </Text>
+                    <Text style={styles.textLugar}>{rota.descricao}</Text>
 
                 </View>
 
                 <View style={styles.containerVolume}>
                     <Text style={styles.textOrigem}>Volume</Text>
-                    <Text style={styles.textLugar}>Não informado</Text>
+                    <Text style={styles.textLugar}>{rota.volumeCarga} kg</Text>
 
                 </View>
 
                 <View style={styles.containerPeso}>
                     <Text style={styles.textOrigem}>Peso bruto</Text>
-                    <Text style={styles.textLugar}>16.000 kg</Text>
+                    <Text style={styles.textLugar}>{rota.pesoBrutoCarga} kg</Text>
 
                 </View>
 
@@ -173,15 +168,24 @@ const styles = StyleSheet.create({
         fontSize: 30,
     },
 
-    placaVeiculo: {
+    viewStatus: {
+        width: 130,
+        height: 30,
+        backgroundColor: '#C52626',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 3
+    },
+
+    status: {
         fontFamily: 'Sen_700Bold',
         color: '#fff',
-        fontSize: 30,
+        fontSize: 18,
         paddingHorizontal: '4%',
-        textTransform: 'uppercase'
     },
-    titulos: {
 
+
+    titulos: {
         height: 150,
         width: '100%',
     },
@@ -189,10 +193,12 @@ const styles = StyleSheet.create({
     },
 
     box: {
-        flexDirection: 'row-reverse',
+        flexDirection: 'column',
+        display: 'flex',
         justifyContent: 'space-between',
         paddingHorizontal: '4%',
         paddingVertical: 10,
+        height: '90%'
     },
 
 

@@ -13,13 +13,16 @@ import { AntDesign } from '@expo/vector-icons';
 import api from '../services/api';
 import { parseJwt, tokenUsuario, usuarioAutenticado } from '../services/auth';
 import AsyncStorageLib from '@react-native-async-storage/async-storage';
-
+import moment from 'moment';
+import 'moment/min/locales'
+moment.locale('pt-br')
 
 // import { Platform } from 'react-native';
 
 export default function ListaRotas({ navigation }) {
     const [veiculoAtual, setVeiculoAtual] = useState()
-    const [listaRotas, setListaRotas] = useState()
+    const [listaRotas, setListaRotas] = useState([])
+    const [rotaAtual, setRotaAtual] = useState({})
     const [token, setToken] = useState('')
     const ref = useRef(null)
     const modalizeRef = useRef(null)
@@ -41,11 +44,21 @@ export default function ListaRotas({ navigation }) {
 
         console.debug(requisicao.data)
 
-        console.debug('teste aqui')
+        const atual = requisicao.data.reduce((a, b) => {
+            return new Date(a.dataInicio) > new Date(b.dataInicio) ? a : b;
+        });
 
-        setListaRotas(requisicao.data)
+        const rotas = requisicao.data.filter((rota) => rota != atual)
+
+        setRotaAtual(atual)
+        setListaRotas(rotas)
+
+        console.debug('teste aqdufi')
+
+
 
         console.debug(listaRotas)
+        console.debug(rotaAtual)
     }
 
     useEffect(ListarRotas, [])
@@ -142,28 +155,28 @@ export default function ListaRotas({ navigation }) {
                             <View style={styles.conteudoRota}>
                                 <View style={styles.viewLocais}>
                                     <View style={styles.local}>
-                                        <Text style={styles.txtH1}>Carapicuíba, SP</Text>
-                                        <Text style={styles.txtH2}>18 Mar, 12h00</Text>
+                                        <Text style={styles.txtH1}>{rotaAtual.origem}</Text>
+                                        <Text style={styles.txtH2}>{moment(rotaAtual.dataPartida).format('lll')}</Text>
                                     </View>
                                     <View style={styles.local}>
-                                        <Text style={styles.txtH1}>Ouro Fino, MG</Text>
-                                        <Text style={styles.txtH2}>18 Mar, 16h00</Text>
+                                        <Text style={styles.txtH1}>{rotaAtual.destino}</Text>
+                                        <Text style={styles.txtH2}>{moment(rotaAtual.dataChegada).format('lll')}</Text>
                                     </View>
                                 </View>
                                 <View style={styles.viewLocais}>
                                     <View style={styles.local}>
-                                        <Text style={styles.txtH1}>Código</Text>
-                                        <Text style={styles.txtH2}>JN028DN30E</Text>
+                                        <Text style={styles.txtH1}>Volume</Text>
+                                        <Text style={styles.txtH2}>{rotaAtual.volumeCarga} kg</Text>
                                     </View>
                                     <View style={styles.local}>
                                         <Text style={styles.txtH1}>Tipo de carga</Text>
-                                        <Text style={styles.txtH2}>Alimentos</Text>
+                                        <Text style={styles.txtH2}>{rotaAtual.carga}</Text>
                                     </View>
 
                                 </View>
 
                             </View>
-                            <TouchableOpacity onPress={() => navigation.navigate("Rota")} style={styles.btnRota}>
+                            <TouchableOpacity onPress={() => navigation.navigate("Rota", rotaAtual)} style={styles.btnRota}>
                                 <Text style={styles.txtBtnRota}>Ver mais</Text>
                             </TouchableOpacity>
                         </View>

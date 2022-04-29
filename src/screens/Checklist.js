@@ -1,16 +1,18 @@
+import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Image, TextInput } from 'react-native';
 import AppLoading from 'expo-app-loading';
-import React, { useEffect, useState } from 'react';
 import { useFonts, Sen_400Regular, Sen_800ExtraBold, Sen_700Bold } from '@expo-google-fonts/sen';
 import { Poppins_700Bold, Poppins_400Regular } from '@expo-google-fonts/poppins';
 import { LinearGradient } from 'expo-linear-gradient';
 import { CheckBox } from 'react-native-elements';
 import { SafeAreaView } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import api from '../services/api';
 
 export default function Checklist({ navigation }) {
     const [isSelected, setSelected] = useState(false)
+    const [listaPecas, setListaPecas] = useState([])
     let [fontsLoaded] = useFonts({
         Sen_700Bold,
         Sen_400Regular,
@@ -21,13 +23,24 @@ export default function Checklist({ navigation }) {
         return <AppLoading />;
     }
 
+    async function ListarPecas() {
+
+        const token = await tokenUsuario()
+
+        const requisicao = await api.get('/pecas', {
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
+        })
+
+        console.debug(requisicao.data)
+    }
+
+    useEffect(ListarPecas, [])
+
     return (
-
-
         <ScrollView style={styles.container}>
             <View style={styles.boxTitulo}>
-
-
                 <View style={styles.titulos}>
                     <LinearGradient
                         style={styles.gradiente}
