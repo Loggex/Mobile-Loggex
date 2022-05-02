@@ -9,8 +9,10 @@ import { CheckBox } from 'react-native-elements';
 import { SafeAreaView } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import api from '../services/api';
+import { tokenUsuario } from '../services/auth';
 
 export default function Checklist({ navigation }) {
+
     const [isSelected, setSelected] = useState(false)
     const [listaPecas, setListaPecas] = useState([])
     let [fontsLoaded] = useFonts({
@@ -19,11 +21,11 @@ export default function Checklist({ navigation }) {
         Poppins_400Regular
     });
 
-    if (!fontsLoaded) {
-        return <AppLoading />;
-    }
+    // if (!fontsLoaded) {
+    //     return <AppLoading />;
+    // }
 
-    async function ListarPecas() {
+    ListarPecas = async () => {
 
         const token = await tokenUsuario()
 
@@ -33,10 +35,27 @@ export default function Checklist({ navigation }) {
             }
         })
 
-        console.debug(requisicao.data)
+        console.debug('chegou aqui')
+        setListaPecas(requisicao.data)
+        console.debug(listaPecas)
     }
 
-    useEffect(ListarPecas, [])
+    CheckPeca = (id) => {
+
+        const index = listaPecas.findIndex(peca => peca.idPeca === id)
+
+        const updateListaPeca = Object.assign([...listaPecas], {
+            [index]: {
+                ...listaPecas[index],
+                estadoPeca: !listaPecas[index].estadoPeca
+            }
+        });
+
+        setListaPecas(updateListaPeca)
+    }
+
+    useEffect(ListarPecas, []);
+    // useEffect(console.debug('teste'), [])
 
     return (
         <ScrollView style={styles.container}>
@@ -64,102 +83,29 @@ export default function Checklist({ navigation }) {
             </View>
             <View style={styles.containerChecklist}>
                 <Text style={styles.mensagemCheck}>Marque apenas os componentes que se encontram em condições adequadas para a execução do serviço.</Text>
-                <View style={styles.checkboxContainer}>
-                    <CheckBox
-                        checkedIcon="check"
-                        uncheckedIcon="square-o"
-                        checkedColor="green"
-                        checked={isSelected}
-                        onPress={() => setSelected(!isSelected)}
-                        style={styles.checkbox}
-                    />
-                    <View style={styles.foto}>
-                        <Text style={styles.label}>Pneu</Text>
-                        <TouchableOpacity onPress={() => navigation.navigate("FotoPeca")}>
-                            <MaterialIcons name="add-photo-alternate" size={33} color="#070757" />
-                        </TouchableOpacity>
-                    </View>
-                </View>
-                <View style={styles.checkboxContainer}>
-                    <CheckBox
-                        checkedIcon="check"
-                        uncheckedIcon="square-o"
-                        checkedColor="green"
-                        checked={isSelected}
-                        onPress={() => setSelected(!isSelected)}
-                        style={styles.checkbox}
-                    />
-                    <View style={styles.foto}>
-                        <Text style={styles.label}>Pneu</Text>
-                        <TouchableOpacity onPress={() => navigation.navigate("FotoPeca")}>
-                            <MaterialIcons name="add-photo-alternate" size={33} color="#070757" />
-                        </TouchableOpacity>
-                    </View>
-                </View>
-                <View style={styles.checkboxContainer}>
-                    <CheckBox
-                        checkedIcon="check"
-                        uncheckedIcon="square-o"
-                        checkedColor="green"
-                        checked={isSelected}
-                        onPress={() => setSelected(!isSelected)}
-                        style={styles.checkbox}
-                    />
-                    <View style={styles.foto}>
-                        <Text style={styles.label}>Pneu</Text>
-                        <TouchableOpacity onPress={() => navigation.navigate("FotoPeca")}>
-                            <MaterialIcons name="add-photo-alternate" size={33} color="#070757" />
-                        </TouchableOpacity>
-                    </View>
-                </View>
-                <View style={styles.checkboxContainer}>
-                    <CheckBox
-                        checkedIcon="check"
-                        uncheckedIcon="square-o"
-                        checkedColor="green"
-                        checked={isSelected}
-                        onPress={() => setSelected(!isSelected)}
-                        style={styles.checkbox}
-                    />
-                    <View style={styles.foto}>
-                        <Text style={styles.label}>Pneu</Text>
-                        <TouchableOpacity onPress={() => navigation.navigate("FotoPeca")}>
-                            <MaterialIcons name="add-photo-alternate" size={33} color="#070757" />
-                        </TouchableOpacity>
-                    </View>
-                </View>
-                <View style={styles.checkboxContainer}>
-                    <CheckBox
-                        checkedIcon="check"
-                        uncheckedIcon="square-o"
-                        checkedColor="green"
-                        checked={isSelected}
-                        onPress={() => setSelected(!isSelected)}
-                        style={styles.checkbox}
-                    />
-                    <View style={styles.foto}>
-                        <Text style={styles.label}>Pneu</Text>
-                        <TouchableOpacity onPress={() => navigation.navigate("FotoPeca")}>
-                            <MaterialIcons name="add-photo-alternate" size={33} color="#070757" />
-                        </TouchableOpacity>
-                    </View>
-                </View>
-                <View style={styles.checkboxContainer}>
-                    <CheckBox
-                        checkedIcon="check"
-                        uncheckedIcon="square-o"
-                        checkedColor="green"
-                        checked={isSelected}
-                        onPress={() => setSelected(!isSelected)}
-                        style={styles.checkbox}
-                    />
-                    <View style={styles.foto}>
-                        <Text style={styles.label}>Pneu</Text>
-                        <TouchableOpacity onPress={() => navigation.navigate("FotoPeca")}>
-                            <MaterialIcons name="add-photo-alternate" size={33} color="#070757" />
-                        </TouchableOpacity>
-                    </View>
-                </View>
+                {
+                    listaPecas.map((peca) => {
+                        return (
+                            <View style={styles.checkboxContainer}>
+                                <CheckBox
+                                    checkedIcon="check"
+                                    uncheckedIcon="square-o"
+                                    checkedColor="green"
+                                    checked={peca.estadoPeca}
+                                    onPress={() => CheckPeca(peca.idPeca)}
+                                    style={styles.checkbox}
+                                />
+                                <View style={styles.foto}>
+                                    <Text style={styles.label}>{peca.idTipoPeca}</Text>
+                                    <TouchableOpacity onPress={() => navigation.navigate("FotoPeca")}>
+                                        <MaterialIcons name="add-photo-alternate" size={33} color="#070757" />
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        )
+                    })
+                }
+
             </View>
 
 
