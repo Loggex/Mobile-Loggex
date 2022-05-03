@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Image, TextInput } from 'react-native';
-import AppLoading from 'expo-app-loading';
 import { useFonts, Sen_400Regular, Sen_800ExtraBold, Sen_700Bold } from '@expo-google-fonts/sen';
 import { Poppins_700Bold, Poppins_400Regular } from '@expo-google-fonts/poppins';
 import { LinearGradient } from 'expo-linear-gradient';
 import { CheckBox } from 'react-native-elements';
-import { SafeAreaView } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import api from '../services/api';
 import { tokenUsuario } from '../services/auth';
@@ -15,6 +13,7 @@ export default function Checklist({ navigation }) {
 
     const [isSelected, setSelected] = useState(false)
     const [listaPecas, setListaPecas] = useState([])
+    const [veiculo, setVeiculo] = useState('')
     let [fontsLoaded] = useFonts({
         Sen_700Bold,
         Sen_400Regular,
@@ -29,15 +28,43 @@ export default function Checklist({ navigation }) {
 
         const token = await tokenUsuario()
 
-        const requisicao = await api.get('/pecas', {
+        const requisicao = await api.get('/veiculos/1', {
             headers: {
                 Authorization: 'Bearer ' + token
             }
         })
 
         console.debug('chegou aqui')
-        setListaPecas(requisicao.data)
+        setListaPecas(requisicao.data.pecas)
+        setVeiculo(requisicao.data.placa)
         console.debug(listaPecas)
+    }
+
+    AtualizarEstados = async () => {
+        const token = await tokenUsuario()
+
+        listaPecas.map(async peca => {
+            return (
+                delete peca.idTipoPecaNavigation,
+                delete peca.logAlteracaos,
+                console.debug(peca),
+                api.put(`/pecas/${peca.idPeca}`, { peca }, {
+                    headers: {
+                        Authorization: 'Bearer ' + token
+                    }
+                }).then(response => console.debug(response))
+            )
+        })
+
+        navigation.navigate('ListaRotas')
+
+        // listaPecas.forEach(peca => {
+        //      api.put(`/pecas/${peca.idPeca}`, peca, {
+        //         headers: {
+        //             Authorization: 'Bearer ' + token
+        //         }
+        //     })
+        // });
     }
 
     CheckPeca = (id) => {
@@ -76,7 +103,7 @@ export default function Checklist({ navigation }) {
                             <Text style={styles.checklistInicial}>Checklist inicial</Text>
                         </View>
                         {/* <Text>{item.idTipoVeiculoNavigation.modeloVeiculo}</Text> */}
-                        <Text style={styles.nomeVeiculo}>Volvo Fh 540 6x4</Text>
+                        <Text style={styles.nomeVeiculo}>{veiculo}</Text>
                     </LinearGradient>
                 </View>
 
@@ -96,7 +123,7 @@ export default function Checklist({ navigation }) {
                                     style={styles.checkbox}
                                 />
                                 <View style={styles.foto}>
-                                    <Text style={styles.label}>{peca.idTipoPeca}</Text>
+                                    <Text style={styles.label}>{peca.idTipoPecaNavigation.nomePeça}</Text>
                                     <TouchableOpacity onPress={() => navigation.navigate("FotoPeca")}>
                                         <MaterialIcons name="add-photo-alternate" size={33} color="#070757" />
                                     </TouchableOpacity>
@@ -105,6 +132,10 @@ export default function Checklist({ navigation }) {
                         )
                     })
                 }
+
+                <TouchableOpacity onPress={() => AtualizarEstados()} style={styles.concluirChecklist}>
+                    <Text style={styles.txtBtnConcluir}>Concluir</Text>
+                </TouchableOpacity>
 
             </View>
 
@@ -118,6 +149,23 @@ export default function Checklist({ navigation }) {
 
 }
 const styles = StyleSheet.create({
+
+    concluirChecklist: {
+        width: '100%',
+        height: 60,
+        backgroundColor: '#090959',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 3,
+        marginTop: 20,
+    },
+
+    txtBtnConcluir: {
+        fontFamily: 'Poppins_700Bold',
+        fontSize: 18,
+        color: '#fff'
+    },
+
     container: {
         flex: 1,
         backgroundColor: '#fff',
