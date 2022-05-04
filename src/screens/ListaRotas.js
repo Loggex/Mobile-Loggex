@@ -176,7 +176,7 @@ export default function ListaRotas({ navigation }) {
                                 </View>
 
                             </View>
-                            <TouchableOpacity onPress={() => navigation.navigate("Rota", rotaAtual)} style={styles.btnRota}>
+                            <TouchableOpacity onPress={() => navigation.navigate("Rota", rotaAtual.idRota)} style={styles.btnRota}>
                                 <Text style={styles.txtBtnRota}>Ver mais</Text>
                             </TouchableOpacity>
                         </View>

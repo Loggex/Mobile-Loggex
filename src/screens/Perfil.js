@@ -11,15 +11,15 @@ import Hr from "hr-native";
 import DropShadow from "react-native-drop-shadow";
 import CardView from 'react-native-cardview';
 import { FontAwesome5 } from '@expo/vector-icons';
-
-
-//ATENÇÃO NA BOX VEICULO E NA FOTO DO CAMINHAO
-
-
-
+import { useEffect, useState } from 'react';
+import { parseJwt } from '../services/auth';
+import api from '../services/api';
+import AsyncStorageLib from '@react-native-async-storage/async-storage';
 
 
 export default function Perfil({ navigation }) {
+
+    const [usuarioLogado, setUsuarioLogado] = useState({})
 
     let [fontsLoaded] = useFonts({
         Sen_700Bold,
@@ -27,22 +27,29 @@ export default function Perfil({ navigation }) {
         Sen_400Regular
     });
 
-    if (!fontsLoaded) {
-        return <AppLoading />;
+    // if (!fontsLoaded) {
+    //     return <AppLoading />;
+    // }
+
+    async function BuscarUsuario() {
+        const usuario = await parseJwt()
+
+        const requisicao = await api.get(`/usuarios/${usuario.jti}`)
+
+        setUsuarioLogado(requisicao.data)
     }
 
-
-    const logout = (navigation) => {
-        AsyncStorage.setItem("TOKEN", "").then(() => {
-            navigation.reset({
-                index: 0,
-                routes: [{ name: "Login" }]
-            })
-        }).catch((error) => {
-            console.log(error)
-            Alert.alert("Erro ao sair")
-        })
-    }
+    // const logout = (navigation) => {
+    //     AsyncStorage.setItem("TOKEN", "").then(() => {
+    //         navigation.reset({
+    //             index: 0,
+    //             routes: [{ name: "Login" }]
+    //         })
+    //     }).catch((error) => {
+    //         console.log(error)
+    //         Alert.alert("Erro ao sair")
+    //     })
+    // }
 
     /* realizarLogout = async() => {
         try {
@@ -52,6 +59,13 @@ export default function Perfil({ navigation }) {
             console.warn(error)
         }
     }; */
+
+    async function Logout(){
+        await AsyncStorageLib.removeItem('login-loggex')
+        navigation.navigate("Login")
+    }
+
+    useEffect(BuscarUsuario, [])
 
 
     return (
@@ -88,8 +102,8 @@ export default function Perfil({ navigation }) {
             </View>
 
             <View style={styles.containerConteudoInformacoes}>
-                <Text style={styles.textNome}>José João Barros</Text>
-                <Text style={styles.textEmpresa}>Senai Transportes</Text>
+                <Text style={styles.textNome}>{usuarioLogado.nome}</Text>
+                <Text style={styles.textEmpresa}>{usuarioLogado.numCelular}</Text>
                 <Hr lineStyle={{
                     backgroundColor: "#C0C0C0",
                     height: 1,
@@ -105,7 +119,7 @@ export default function Perfil({ navigation }) {
                 <View style={styles.containerEmail}>
 
                     <Text style={styles.Email}>E-mail</Text>
-                    <Text style={styles.textEmail}>josejoaobarros132@gmail.com</Text>
+                    <Text style={styles.textEmail}>{usuarioLogado.email}</Text>
                 </View>
 
                 <View>
@@ -155,10 +169,8 @@ export default function Perfil({ navigation }) {
                     <TouchableOpacity
                         style={styles.btnLogin}
                         title="Sair"
-                        onPress={() => logout(navigation)}
+                        onPress={() => Logout()}
                     >
-
-
                         <View style={styles.boxSair}>
 
 

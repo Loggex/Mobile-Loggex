@@ -43,7 +43,11 @@ export default function Checklist({ route, navigation }) {
     AtualizarEstados = async () => {
         const token = await tokenUsuario()
 
-        rota.idSituacao = 2
+        if (rota.idSituacao === 1) {
+            rota.idSituacao = 2
+        } else if (rota.idSituacao === 2) {
+            rota.idSituacao = 3
+        }
 
         await api.put(`/rotas/${rota.idRota}`, rota, {
             headers: {

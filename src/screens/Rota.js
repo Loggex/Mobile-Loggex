@@ -1,5 +1,7 @@
 import { StyleSheet, Text, View, Button, SafeAreaView, Image, Icon, TouchableOpacity, Touchable, SafeAreaViewBase } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import { tokenUsuario } from '../services/auth';
+import api from '../services/api';
 import { useNavigate } from 'react-router';
 import AppLoading from 'expo-app-loading';
 import { AsyncStorage } from 'react-native';
@@ -7,12 +9,13 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { ScrollView } from 'react-native';
 import { useFonts, Sen_400Regular, Sen_800ExtraBold, Sen_700Bold } from '@expo-google-fonts/sen';
 import { Poppins_700Bold } from '@expo-google-fonts/poppins';
+import { useEffect, useState } from 'react';
 
 //ATENÇÃO NA BOX VEICULO E NA FOTO DO CAMINHAO
 
 export default function Rota({ route, navigation }) {
 
-    const rota = route.params
+    const [rota, setRota] = useState({})
 
     let [fontsLoaded] = useFonts({
         Sen_700Bold,
@@ -20,9 +23,24 @@ export default function Rota({ route, navigation }) {
         Sen_400Regular
     });
 
-    if (!fontsLoaded) {
-        return <AppLoading />;
+    async function BuscarRota() {
+        const token = await tokenUsuario()
+
+        const requisicao = await api.get(`/rotas/${route.params}`, {
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
+        })
+
+        console.debug(requisicao.data)
+        setRota(requisicao.data)
     }
+
+    // if (!fontsLoaded) {
+    //     return <AppLoading />;
+    // }
+
+    useEffect(BuscarRota, [])
 
     return (
         <ScrollView style={styles.container}>
@@ -50,7 +68,7 @@ export default function Rota({ route, navigation }) {
                             <Text style={styles.checklistInicial}>Rota mais próxima</Text>
 
                             <View style={styles.viewStatus}>
-                                <Text style={styles.status}>{rota.idSituacaoNavigation.tituloSituacao}</Text>
+                                <Text style={styles.status}>{rota.idSituacaoNavigation?.tituloSituacao}</Text>
                             </View>
                         </View>
                         {/* <Text>{item.idTipoVeiculoNavigation.modeloVeiculo}</Text> */}
@@ -123,24 +141,24 @@ export default function Rota({ route, navigation }) {
 
                 <View style={styles.btnInicar}>
 
-                    <TouchableOpacity style={styles.btnRota}
-                        onPress={() => navigation.navigate("Checklist", rota)}>
-                        <Text style={styles.textRota}>Iniciar Rota</Text>
-                    </TouchableOpacity>
+                    {
+                        rota.idSituacao === 3 ?
 
+                            <TouchableOpacity style={styles.btnRota}>
+                                <Text style={styles.textRota}>Retornar</Text>
+                            </TouchableOpacity>
+
+                            :
+
+                            <TouchableOpacity style={styles.btnRota}
+                                onPress={() => navigation.navigate("Checklist", rota)}>
+                                <Text style={styles.textRota}>{rota.idSituacao === 1 ? "Iniciar Rota" : "Concluir rota"}</Text>
+                            </TouchableOpacity>
+                    }
                 </View>
             </View>
-
-
-
-
-
             <StatusBar style="auto" />
-
         </ScrollView>
-
-
-
     )
 }
 
