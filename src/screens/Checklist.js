@@ -9,8 +9,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import api from '../services/api';
 import { tokenUsuario } from '../services/auth';
 
-export default function Checklist({ navigation }) {
-
+export default function Checklist({ route, navigation }) {
+    const rota = route.params
     const [isSelected, setSelected] = useState(false)
     const [listaPecas, setListaPecas] = useState([])
     const [veiculo, setVeiculo] = useState('')
@@ -43,12 +43,21 @@ export default function Checklist({ navigation }) {
     AtualizarEstados = async () => {
         const token = await tokenUsuario()
 
+        rota.idSituacao = 2
+
+        await api.put(`/rotas/${rota.idRota}`, rota, {
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
+        }).then(response => console.debug(response))
+
+
         listaPecas.map(async peca => {
             return (
                 delete peca.idTipoPecaNavigation,
                 delete peca.logAlteracaos,
                 console.debug(peca),
-                api.put(`/pecas/${peca.idPeca}`, { peca }, {
+                await api.put(`/pecas/${peca.idPeca}`, peca, {
                     headers: {
                         Authorization: 'Bearer ' + token
                     }
@@ -56,7 +65,7 @@ export default function Checklist({ navigation }) {
             )
         })
 
-        navigation.navigate('ListaRotas')
+        navigation.navigate('Main')
 
         // listaPecas.forEach(peca => {
         //      api.put(`/pecas/${peca.idPeca}`, peca, {

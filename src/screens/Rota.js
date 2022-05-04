@@ -48,8 +48,9 @@ export default function Rota({ route, navigation }) {
                                 {/* <Image style={styles.imageVoltar} source={require('../assets/X.png')} /> */}
                             </TouchableOpacity>
                             <Text style={styles.checklistInicial}>Rota mais próxima</Text>
+
                             <View style={styles.viewStatus}>
-                                <Text style={styles.status}>Agendada</Text>
+                                <Text style={styles.status}>{rota.idSituacaoNavigation.tituloSituacao}</Text>
                             </View>
                         </View>
                         {/* <Text>{item.idTipoVeiculoNavigation.modeloVeiculo}</Text> */}
@@ -123,7 +124,7 @@ export default function Rota({ route, navigation }) {
                 <View style={styles.btnInicar}>
 
                     <TouchableOpacity style={styles.btnRota}
-                        onPress={() => navigation.navigate("Checklist")}>
+                        onPress={() => navigation.navigate("Checklist", rota)}>
                         <Text style={styles.textRota}>Iniciar Rota</Text>
                     </TouchableOpacity>
 
@@ -169,7 +170,7 @@ const styles = StyleSheet.create({
     },
 
     viewStatus: {
-        width: 130,
+        width: 150,
         height: 30,
         backgroundColor: '#C52626',
         alignItems: 'center',
@@ -188,8 +189,6 @@ const styles = StyleSheet.create({
     titulos: {
         height: 150,
         width: '100%',
-    },
-    imageVoltar: {
     },
 
     box: {
