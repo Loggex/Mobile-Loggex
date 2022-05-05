@@ -5,12 +5,16 @@ import { Camera } from 'expo-camera';
 import * as FileSystem from 'expo-file-system';
 import { Modalize } from 'react-native-modalize';
 import imgCaminhao from '../assets/caminhao.png';
+import { tokenUsuario } from '../services/auth';
+import api from '../services/api';
+import AsyncStorageLib from '@react-native-async-storage/async-storage';
 
 export default function OCR() {
     const [hasPermission, setHasPermission] = useState(null);
     const [type, setType] = useState(Camera.Constants.Type.back);
     const [status, requestPermission] = MediaLibrary.usePermissions();
     const [placa, setPlaca] = useState('')
+    const [veiculo, setVeiculo] = useState({})
     const [teste, setTeste] = useState({})
 
     const ref = useRef(null)
@@ -61,6 +65,24 @@ export default function OCR() {
         console.debug(resultado)
     }
 
+    async function BuscarVeiculo() {
+        const token = await tokenUsuario()
+
+        const placa = 'CZN4542'
+
+        const requisicao = await api.get(`/veiculos/placa/${placa}`, {
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
+        })
+
+        console.debug(requisicao.data)
+        setVeiculo(requisicao.data)
+        AsyncStorageLib.setItem("veiculo-atual", JSON.stringify(requisicao.data))
+
+        onOpen()
+    }
+
     const FiltrarOCR = (obj) => {
         let resultado;
         let teste = JSON.parse(obj)
@@ -93,7 +115,7 @@ export default function OCR() {
                             Veículo encontrado:
                         </Text>
                         <Text style={styles.nomeVeiculo}>
-                            Volvo Fh 540 6x4
+                            {/* {veiculo.idTipoVeiculoNavigation.modeloVeiculo} */}
                         </Text>
                     </View>
 
@@ -122,7 +144,7 @@ export default function OCR() {
                 ref={ref}
             >
             </Camera>
-            <TouchableOpacity onPress={TakePicture} style={styles.btnFoto}>
+            <TouchableOpacity onPress={() => BuscarVeiculo()} style={styles.btnFoto}>
                 <Text style={styles.btnTxt}>Tirar Foto</Text>
             </TouchableOpacity>
         </View>

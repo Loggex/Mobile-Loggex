@@ -55,13 +55,16 @@ export default function ListaRotas({ navigation }) {
 
         console.debug('teste aqdufi')
 
-
-
         console.debug(listaRotas)
         console.debug(rotaAtual)
     }
 
     useEffect(ListarRotas, [])
+    useEffect(async function VeiculoAtual() {
+        setVeiculoAtual(await AsyncStorageLib.getItem('veiculo-atual'))
+        console.debug('testandooo')
+        console.debug(veiculoAtual)
+    }, [])
 
     return (
         <View

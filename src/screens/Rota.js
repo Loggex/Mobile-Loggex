@@ -144,7 +144,7 @@ export default function Rota({ route, navigation }) {
                     {
                         rota.idSituacao === 3 ?
 
-                            <TouchableOpacity style={styles.btnRota}>
+                            <TouchableOpacity style={styles.btnRota} onPress={() => navigation.navigate("Main")}>
                                 <Text style={styles.textRota}>Retornar</Text>
                             </TouchableOpacity>
 
