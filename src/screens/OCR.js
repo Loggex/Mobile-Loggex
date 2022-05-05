@@ -76,9 +76,10 @@ export default function OCR() {
             }
         })
 
-        console.debug(requisicao.data)
-        setVeiculo(requisicao.data)
-        AsyncStorageLib.setItem("veiculo-atual", JSON.stringify(requisicao.data))
+        // console.debug(requisicao.data)
+        // setVeiculo(requisicao.data)
+        // await AsyncStorageLib.setItem("veiculo-atual", JSON.stringify(requisicao.data))
+        await AsyncStorageLib.removeItem("veiculo-atual")
 
         onOpen()
     }
@@ -115,7 +116,7 @@ export default function OCR() {
                             Veículo encontrado:
                         </Text>
                         <Text style={styles.nomeVeiculo}>
-                            {/* {veiculo.idTipoVeiculoNavigation.modeloVeiculo} */}
+                            {veiculo.idTipoVeiculoNavigation?.modeloVeiculo}
                         </Text>
                     </View>
 

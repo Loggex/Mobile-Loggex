@@ -18,7 +18,7 @@ import AsyncStorageLib from '@react-native-async-storage/async-storage';
 
 
 export default function Perfil({ navigation }) {
-
+    const [veiculoAtual, setVeiculoAtual] = useState({})
     const [usuarioLogado, setUsuarioLogado] = useState({})
 
     let [fontsLoaded] = useFonts({
@@ -60,13 +60,17 @@ export default function Perfil({ navigation }) {
         }
     }; */
 
-    async function Logout(){
+    async function Logout() {
         await AsyncStorageLib.removeItem('login-loggex')
         navigation.navigate("Login")
     }
 
     useEffect(BuscarUsuario, [])
-
+    useEffect(async function VeiculoAtual() {
+        setVeiculoAtual(JSON.parse(await AsyncStorageLib.getItem('veiculo-atual')))
+        console.debug('testandooo')
+        console.debug(veiculoAtual)
+    }, [])
 
     return (
         <ScrollView style={styles.container}>
@@ -126,14 +130,24 @@ export default function Perfil({ navigation }) {
                     <Text style={styles.textVeiculo}>Veículo</Text>
 
                 </View>
+
                 <View style={styles.containerVeiculo}>
-                    <View style={styles.boxVeiculo}>
-                        <Image style={styles.fotoCaminhao} source={require('../assets/fotoCaminhao.png')} />
-                        <View style={styles.boxText}>
-                            <Text style={styles.nomeVeiculo}>Volvo Fh 540 6x4</Text>
-                            <Text style={styles.quilometragem}>Quilometragem: 300 km</Text>
-                        </View>
-                    </View>
+                    {
+                        veiculoAtual != null ?
+                            <View style={styles.boxVeiculo}>
+                                <Image style={styles.fotoCaminhao} source={require('../assets/fotoCaminhao.png')} />
+                                <View style={styles.boxText}>
+                                    <Text style={styles.nomeVeiculo}>{veiculoAtual.idTipoVeiculoNavigation?.modeloVeiculo}</Text>
+                                    <Text style={styles.quilometragem}>Quilometragem: {veiculoAtual.quilometragem}</Text>
+                                </View>
+                            </View>
+                            :
+                            <View style={styles.boxVeiculo}>
+                                <View style={styles.naoVinculadoTxt}>
+                                    <Text >Nenhum veículo escaneado</Text>
+                                </View>
+                            </View>
+                    }
 
                 </View>
 
@@ -201,6 +215,14 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
+    },
+
+    naoVinculadoTxt:{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
 
     gradiente: {
