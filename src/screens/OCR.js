@@ -76,10 +76,10 @@ export default function OCR() {
             }
         })
 
-        // console.debug(requisicao.data)
-        // setVeiculo(requisicao.data)
-        // await AsyncStorageLib.setItem("veiculo-atual", JSON.stringify(requisicao.data))
-        await AsyncStorageLib.removeItem("veiculo-atual")
+        console.debug(requisicao.data)
+        setVeiculo(requisicao.data)
+        await AsyncStorageLib.setItem("veiculo-atual", JSON.stringify(requisicao.data))
+        // await AsyncStorageLib.removeItem("veiculo-atual")
 
         onOpen()
     }

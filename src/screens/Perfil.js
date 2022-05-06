@@ -65,12 +65,18 @@ export default function Perfil({ navigation }) {
         navigation.navigate("Login")
     }
 
-    useEffect(BuscarUsuario, [])
-    useEffect(async function VeiculoAtual() {
+    async function BuscaVeiculoAtual() {
         setVeiculoAtual(JSON.parse(await AsyncStorageLib.getItem('veiculo-atual')))
-        console.debug('testandooo')
         console.debug(veiculoAtual)
-    }, [])
+    }
+
+    useEffect(BuscarUsuario, [])
+    useEffect(() => {
+        const atualizar = navigation.addListener('focus', () => {
+            BuscaVeiculoAtual()
+        });
+        return atualizar;
+    }, [navigation])
 
     return (
         <ScrollView style={styles.container}>
@@ -217,7 +223,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
 
-    naoVinculadoTxt:{
+    naoVinculadoTxt: {
         width: '100%',
         height: '100%',
         display: 'flex',

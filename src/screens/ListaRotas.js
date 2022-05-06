@@ -21,7 +21,7 @@ moment.locale('pt-br')
 
 // import { Platform } from 'react-native';
 
-export default function ListaRotas({ navigation }) {
+export default function ListaRotas({ route, navigation }) {
     const [veiculoAtual, setVeiculoAtual] = useState({})
     const [listaRotas, setListaRotas] = useState([])
     const [rotaAtual, setRotaAtual] = useState({})
@@ -62,18 +62,17 @@ export default function ListaRotas({ navigation }) {
     }
 
     async function BuscaVeiculoAtual() {
-        setVeiculoAtual(await AsyncStorageLib.getItem('veiculo-atual'))
-        console.debug("xfvsdvswdvwsevwsvws")
+        setVeiculoAtual(JSON.parse(await AsyncStorageLib.getItem('veiculo-atual')))
         console.debug(veiculoAtual)
     }
 
     useEffect(ListarRotas, [])
 
     useEffect(() => {
-        const teste = navigation.addListener('focus', () => {
+        const atualizar = navigation.addListener('focus', () => {
             BuscaVeiculoAtual()
         });
-        return teste;
+        return atualizar;
     }, [navigation])
     
     // useEffect(async function VeiculoAtual() {
@@ -83,7 +82,7 @@ export default function ListaRotas({ navigation }) {
     // }, [])
 
 
-    if (veiculoAtual !== undefined) {
+    if (veiculoAtual !== null) {
         return (
             <View
 
