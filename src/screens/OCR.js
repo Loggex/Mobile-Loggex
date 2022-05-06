@@ -8,8 +8,9 @@ import imgCaminhao from '../assets/caminhao.png';
 import { tokenUsuario } from '../services/auth';
 import api from '../services/api';
 import AsyncStorageLib from '@react-native-async-storage/async-storage';
+import LottieView from 'lottie-react-native';
 
-export default function OCR() {
+export default function OCR({ navigation }) {
     const [hasPermission, setHasPermission] = useState(null);
     const [type, setType] = useState(Camera.Constants.Type.back);
     const [status, requestPermission] = MediaLibrary.usePermissions();
@@ -27,12 +28,12 @@ export default function OCR() {
         })();
     }, []);
 
-    if (hasPermission === null) {
-        return <View />;
-    }
-    if (hasPermission === false) {
-        return <Text>Sem acesso à camera</Text>;
-    }
+    // if (hasPermission === null) {
+    //     return <View />;
+    // }
+    // if (hasPermission === false) {
+    //     return <Text>Sem acesso à camera</Text>;
+    // }
 
     function onOpen() {
         modalizeRef.current?.open();
@@ -77,11 +78,16 @@ export default function OCR() {
         })
 
         console.debug(requisicao.data)
-        setVeiculo(requisicao.data)
+        // setVeiculo(requisicao.data)
         await AsyncStorageLib.setItem("veiculo-atual", JSON.stringify(requisicao.data))
         // await AsyncStorageLib.removeItem("veiculo-atual")
 
         onOpen()
+    }
+
+    async function BuscaVeiculoAtual() {
+        setVeiculo(JSON.parse(await AsyncStorageLib.getItem('veiculo-atual')))
+        console.debug(veiculo)
     }
 
     const FiltrarOCR = (obj) => {
@@ -103,56 +109,95 @@ export default function OCR() {
         return resultado;
     }
 
-    return (
-        <View style={styles.container}>
-            <Modalize
-                ref={modalizeRef}
-                snapPoint={500}
-            >
-                <Image style={styles.image} source={imgCaminhao} />
-                <View style={styles.modal} >
-                    <View style={styles.txtModal}>
-                        <Text style={styles.tituloModal}>
-                            Veículo encontrado:
-                        </Text>
-                        <Text style={styles.nomeVeiculo}>
-                            {veiculo.idTipoVeiculoNavigation?.modeloVeiculo}
-                        </Text>
-                    </View>
+    async function Limpar() {
+        await AsyncStorageLib.removeItem('veiculo-atual')
+        setVeiculo(null)
+    }
 
-                    <View style={styles.modalBtns}>
-                        <TouchableOpacity style={styles.btnModal}>
-                            <Text style={styles.txtBtnModal1}>
-                                Confirmar
-                            </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity>
-                            <Text style={styles.txtBtnModal2}>
-                                Tentar novamente
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
+    useEffect(() => {
+        const atualizar = navigation.addListener('focus', () => {
+            BuscaVeiculoAtual()
+        });
+        return atualizar;
+    }, [navigation])
 
+    if (veiculo === null) {
+        return (
+            <View style={styles.container}>
+                <Modalize
+                    ref={modalizeRef}
+                    snapPoint={500}
+                >
+                    <Image style={styles.image} source={imgCaminhao} />
+                    <View style={styles.modal} >
+                        <View style={styles.txtModal}>
+                            <Text style={styles.tituloModal}>
+                                Veículo encontrado:
+                            </Text>
+                            <Text style={styles.nomeVeiculo}>
+                                {veiculo?.idTipoVeiculoNavigation.modeloVeiculo}
+                            </Text>
+                        </View>
+
+                        <View style={styles.modalBtns}>
+                            <TouchableOpacity style={styles.btnModal}>
+                                <Text style={styles.txtBtnModal1}>
+                                    Confirmar
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity>
+                                <Text style={styles.txtBtnModal2}>
+                                    Tentar novamente
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+
+                    </View>
+                </Modalize>
+                <View style={styles.txtOcr}>
+                    <Text style={styles.titulo}>Escanear placa</Text>
+                    <Text style={styles.desc}>Aponte sua a câmera para a placa do veículo de modo que ela encaixe na região abaixo:</Text>
                 </View>
-            </Modalize>
-            <View style={styles.txtOcr}>
-                <Text style={styles.titulo}>Escanear placa</Text>
-                <Text style={styles.desc}>Aponte sua a câmera para a placa do veículo de modo que ela encaixe na região abaixo:</Text>
+                <Camera
+                    style={styles.camera}
+                    type={type}
+                    ref={ref}
+                >
+                </Camera>
+                <TouchableOpacity onPress={() => BuscarVeiculo()} style={styles.btnFoto}>
+                    <Text style={styles.btnTxt}>Tirar Foto</Text>
+                </TouchableOpacity>
             </View>
-            <Camera
-                style={styles.camera}
-                type={type}
-                ref={ref}
-            >
-            </Camera>
-            <TouchableOpacity onPress={() => BuscarVeiculo()} style={styles.btnFoto}>
-                <Text style={styles.btnTxt}>Tirar Foto</Text>
-            </TouchableOpacity>
-        </View>
-    );
+        );
+    } else {
+        return (
+            <View style={styles.container}>
+                <View style={styles.box}>
+                    <LottieView style={{ width: '100%' }} source={require('../assets/lottie/lf30_bx07iy2i.json')} autoPlay loop />
+                    <Text style={styles.tituloModal}>Veículo atual</Text>
+                    <Text style={styles.nomeVeiculo}>{veiculo.idTipoVeiculoNavigation?.modeloVeiculo}</Text>
+                    <TouchableOpacity style={styles.btnFoto} onPress={() => Limpar()}>
+                        <Text style={styles.btnTxt}>
+                            Trocar veículo
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        )
+    }
 }
 
 const styles = StyleSheet.create({
+
+    box: {
+        width: '100%',
+        height: 370,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: "space-between"
+    },
+
     container: {
         flex: 1,
         paddingHorizontal: '4%',

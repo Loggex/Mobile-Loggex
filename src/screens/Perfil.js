@@ -62,6 +62,7 @@ export default function Perfil({ navigation }) {
 
     async function Logout() {
         await AsyncStorageLib.removeItem('login-loggex')
+        await AsyncStorage.removeItem('veiculo-atual')
         navigation.navigate("Login")
     }
 

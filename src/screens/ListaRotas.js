@@ -74,7 +74,7 @@ export default function ListaRotas({ route, navigation }) {
         });
         return atualizar;
     }, [navigation])
-    
+
     // useEffect(async function VeiculoAtual() {
     //     setVeiculoAtual(JSON.parse(await AsyncStorageLib.getItem('veiculo-atual')))
     //     console.debug('testandooo')
