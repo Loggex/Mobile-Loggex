@@ -3,51 +3,91 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import * as MediaLibrary from 'expo-media-library';
 import { Camera } from 'expo-camera';
 import * as FileSystem from 'expo-file-system';
+import * as ImagePicker from 'expo-image-picker';
+import AsyncStorageLib from '@react-native-async-storage/async-storage';
 
-export default function OCR() {
+export default function FotoPeca({ route, navigation }) {
     const [hasPermission, setHasPermission] = useState(null);
     const [type, setType] = useState(Camera.Constants.Type.back);
     const [status, requestPermission] = MediaLibrary.usePermissions();
     const [placa, setPlaca] = useState('')
     const [teste, setTeste] = useState({})
+    const idPeca = route.params?.idPeca
+    const [servico, setServico] = useState(route.params?.servicoAtual)
     const ref = useRef(null)
 
-    
 
-    const TakePicture = async () => {
-        const foto = await ref.current.takePictureAsync()
-        const options = {
-            httpMethod: 'POST',
-            uploadType: FileSystem.FileSystemUploadType.MULTIPART,
-            fieldName: 'file',
-            headers: {
-                "Content-Type": "multipart/form-data",
-                "Ocp-Apim-Subscription-Key": "65679d72ba0245bbacadf9420515503d"
-            }
+
+    // const TakePicture = async () => {
+    //     const foto = await ref.current.takePictureAsync()
+    //     const options = {
+    //         httpMethod: 'POST',
+    //         uploadType: FileSystem.FileSystemUploadType.MULTIPART,
+    //         fieldName: 'file',
+    //         headers: {
+    //             "Content-Type": "multipart/form-data",
+    //             "Ocp-Apim-Subscription-Key": "65679d72ba0245bbacadf9420515503d"
+    //         }
+    //     }
+
+
+
+    //     setTeste(response.body)
+    //     console.debug(response)
+    //     console.debug(teste)
+
+    //     response.body.regions.forEach(region => {
+    //         region.lines.forEach(line => {
+    //             line.words.forEach(word => {
+    //                 if (word.text.length === 7) {
+    //                     setPlaca(word.text)
+    //                 }
+    //             })
+    //         })
+    //     })
+
+    //     console.log(placa)
+    // }
+
+    async function takePhotoAndUpload() {
+        let result = await ImagePicker.launchCameraAsync({
+            allowsEditing: false, // higher res on iOS
+            aspect: [4, 3],
+        });
+
+        if (result.cancelled) {
+            navigation.navigate('Checklist')
+        } else {
+            let localUri = result.uri;
+
+            await AsyncStorageLib.setItem(`peca-${idPeca}`, localUri)
+
+            navigation.navigate('Checklist', { rotaAtual: servico })
         }
 
-        
 
-        // setTeste(response.body)
-        // console.debug(response)
-        // console.debug(teste)
+        // let filename = localUri.split('/').pop();
 
-        // response.body.regions.forEach(region => {
-        //     region.lines.forEach(line => {
-        //         line.words.forEach(word => {
-        //             if (word.text.length === 7) {
-        //                 setPlaca(word.text)
-        //             }
-        //         })
-        //     })
-        // })
+        // let match = /\.(\w+)$/.exec(filename);
+        // let type = match ? `image/${match[1]}` : `image`;
 
-        // console.log(placa)
+        // let formData = new FormData();
+        // formData.append('photo', { uri: localUri, name: filename, type });
+
+        // return await fetch('http://example.com/upload.php', {
+        //     method: 'POST',
+        //     body: formData,
+        //     header: {
+        //         'content-type': 'multipart/form-data',
+        //     },
+        // });
     }
+
+    useEffect(takePhotoAndUpload, [])
 
     return (
         <View style={styles.container}>
-            <View style={styles.txtOcr}>
+            {/* <View style={styles.txtOcr}>
                 <Text style={styles.titulo}>Foto da peça</Text>
                 <Text style={styles.desc}>Aponte sua a câmera para a peça do veículo de modo que ela encaixe na região abaixo:</Text>
             </View>
@@ -59,7 +99,7 @@ export default function OCR() {
             </Camera>
             <TouchableOpacity onPress={TakePicture} style={styles.btnFoto}>
                 <Text style={styles.btnTxt}>Tirar Foto</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
         </View>
     );
 }

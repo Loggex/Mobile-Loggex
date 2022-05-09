@@ -8,11 +8,13 @@ import { CheckBox } from 'react-native-elements';
 import { MaterialIcons } from '@expo/vector-icons';
 import api from '../services/api';
 import { tokenUsuario } from '../services/auth';
+import AsyncStorageLib from '@react-native-async-storage/async-storage';
+import * as ImagePicker from 'expo-image-picker';
 
 export default function Checklist({ route, navigation }) {
-    const rota = route.params
+    const rota = route.params?.rotaAtual
     const [isSelected, setSelected] = useState(false)
-    const [listaPecas, setListaPecas] = useState([])
+    const [listaPecas, setListaPecas] = useState(route.params?.rotaAtual.idVeiculoNavigation.pecas)
     const [veiculo, setVeiculo] = useState('')
     let [fontsLoaded] = useFonts({
         Sen_700Bold,
@@ -24,21 +26,67 @@ export default function Checklist({ route, navigation }) {
     //     return <AppLoading />;
     // }
 
-    ListarPecas = async () => {
+    // ListarPecas = async () => {
 
-        const token = await tokenUsuario()
+    //     const token = await tokenUsuario()
 
-        const requisicao = await api.get('/veiculos/1', {
-            headers: {
-                Authorization: 'Bearer ' + token
-            }
-        })
+    //     console.debug(rota)
 
-        console.debug('chegou aqui')
-        setListaPecas(requisicao.data.pecas)
-        setVeiculo(requisicao.data.placa)
-        console.debug(listaPecas)
+    //     const requisicao = await api.get(`/veiculos/${rota.idVeiculo}`, {
+    //         headers: {
+    //             Authorization: 'Bearer ' + token
+    //         }
+    //     })
+
+    //     console.debug('chegou aqui')
+    //     setListaPecas(requisicao.data.pecas)
+    //     setVeiculo(requisicao.data.placa)
+    //     console.debug(listaPecas)
+    // }
+
+    async function takePhotoAndUpload(id) {
+        let result = await ImagePicker.launchCameraAsync({
+            allowsEditing: false, // higher res on iOS
+            aspect: [4, 3],
+        });
+
+        if (result.cancelled) {
+
+        } else {
+            let localUri = result.uri;
+
+            // console.warn(localUri)
+
+            const index = listaPecas.findIndex(peca => peca.idPeca === id)
+
+            const updateListaPeca = Object.assign([...listaPecas], {
+                [index]: {
+                    ...listaPecas[index],
+                    imgPeca: localUri
+                }
+            });
+
+            setListaPecas(updateListaPeca)
+        }
+
+
+        // let filename = localUri.split('/').pop();
+
+        // let match = /\.(\w+)$/.exec(filename);
+        // let type = match ? `image/${match[1]}` : `image`;
+
+        // let formData = new FormData();
+        // formData.append('photo', { uri: localUri, name: filename, type });
+
+        // return await fetch('http://example.com/upload.php', {
+        //     method: 'POST',
+        //     body: formData,
+        //     header: {
+        //         'content-type': 'multipart/form-data',
+        //     },
+        // });
     }
+
 
     AtualizarEstados = async () => {
         const token = await tokenUsuario()
@@ -71,13 +119,13 @@ export default function Checklist({ route, navigation }) {
 
         navigation.navigate('Main')
 
-        // listaPecas.forEach(peca => {
-        //      api.put(`/pecas/${peca.idPeca}`, peca, {
-        //         headers: {
-        //             Authorization: 'Bearer ' + token
-        //         }
-        //     })
-        // });
+        listaPecas.forEach(peca => {
+            api.put(`/pecas/${peca.idPeca}`, peca, {
+                headers: {
+                    Authorization: 'Bearer ' + token
+                }
+            })
+        });
     }
 
     CheckPeca = (id) => {
@@ -94,7 +142,7 @@ export default function Checklist({ route, navigation }) {
         setListaPecas(updateListaPeca)
     }
 
-    useEffect(ListarPecas, []);
+    // useEffect(ListarPecas, []);
     // useEffect(console.debug('teste'), [])
 
     return (
@@ -137,8 +185,13 @@ export default function Checklist({ route, navigation }) {
                                 />
                                 <View style={styles.foto}>
                                     <Text style={styles.label}>{peca.idTipoPecaNavigation.nomePeça}</Text>
-                                    <TouchableOpacity onPress={() => navigation.navigate("FotoPeca")}>
-                                        <MaterialIcons name="add-photo-alternate" size={33} color="#070757" />
+                                    <TouchableOpacity onPress={() => takePhotoAndUpload(peca.idPeca)}>
+                                        {
+                                            peca.imgPeca === '.../teste.png' ?
+                                                <MaterialIcons name="add-photo-alternate" size={33} color="#070757" />
+                                                :
+                                                <Image style={{height: 40, width: 40}} source={{uri: peca.imgPeca}} />
+                                        }
                                     </TouchableOpacity>
                                 </View>
                             </View>

@@ -151,7 +151,9 @@ export default function Rota({ route, navigation }) {
                             :
 
                             <TouchableOpacity style={styles.btnRota}
-                                onPress={() => navigation.navigate("Checklist", rota)}>
+                                onPress={() => navigation.navigate("Checklist", {
+                                    rotaAtual: rota
+                                })}>
                                 <Text style={styles.textRota}>{rota.idSituacao === 1 ? "Iniciar Rota" : "Concluir rota"}</Text>
                             </TouchableOpacity>
                     }
@@ -184,7 +186,7 @@ const styles = StyleSheet.create({
         width: '80%',
         color: '#fff',
         fontFamily: 'Sen_400Regular',
-        fontSize: 30,
+        fontSize: 27,
     },
 
     viewStatus: {
