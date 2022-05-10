@@ -10,6 +10,7 @@ import api from '../services/api';
 import { tokenUsuario } from '../services/auth';
 import AsyncStorageLib from '@react-native-async-storage/async-storage';
 import * as ImagePicker from 'expo-image-picker';
+import axios from 'axios';
 
 export default function Checklist({ route, navigation }) {
     const rota = route.params?.rotaAtual
@@ -105,27 +106,58 @@ export default function Checklist({ route, navigation }) {
 
 
         listaPecas.map(async peca => {
-            return (
-                delete peca.idTipoPecaNavigation,
-                delete peca.logAlteracaos,
-                console.debug(peca),
-                await api.put(`/pecas/${peca.idPeca}`, peca, {
-                    headers: {
-                        Authorization: 'Bearer ' + token
-                    }
-                }).then(response => console.debug(response))
-            )
+
+            delete peca.idTipoPecaNavigation
+            delete peca.logAlteracaos
+            let filename = peca.imgPeca.split('/').pop();
+
+            let match = /\.(\w+)$/.exec(filename);
+            let type = match ? `image/${match[1]}` : `image`;
+
+            var formData = new FormData();
+            formData.append('arquivo', { uri: peca.imgPeca, name: filename, type });
+            formData.append('IdPeca', peca.idPeca)
+            formData.append('IdTipoPeca', peca.idTipoPeca)
+            formData.append('IdVeiculo', peca.idVeiculo)
+            formData.append('EstadoPeca', peca.estadoPeca)
+            formData.append('ImgPeca', peca.imgPeca)
+
+            console.debug(formData.entries)
+            await api.put('/pecas', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: 'Bearer ' + token
+                }
+            }).then(response => console.debug(response))
+
+            // await axios('/pecas', {
+            //     method: 'PUT',
+            //     body: formData,
+            //     headers: {
+            //         'Content-Type': 'multipart/form-data',
+            //         Authorization: 'Bearer ' + token
+            //     },
+            // }).then(response => console.debug(response))
+
+
+            // console.debug(peca),
+            //     await api.put(`/pecas/${peca.idPeca}`, peca, {
+            //         headers: {
+            //             Authorization: 'Bearer ' + token
+            //         }
+            //     }).then(response => console.debug(response))
+
         })
 
         navigation.navigate('Main')
 
-        listaPecas.forEach(peca => {
-            api.put(`/pecas/${peca.idPeca}`, peca, {
-                headers: {
-                    Authorization: 'Bearer ' + token
-                }
-            })
-        });
+        // listaPecas.forEach(peca => {
+        //     api.put(`/pecas/${peca.idPeca}`, peca, {
+        //         headers: {
+        //             Authorization: 'Bearer ' + token
+        //         }
+        //     })
+        // });
     }
 
     CheckPeca = (id) => {
@@ -190,7 +222,7 @@ export default function Checklist({ route, navigation }) {
                                             peca.imgPeca === '.../teste.png' ?
                                                 <MaterialIcons name="add-photo-alternate" size={33} color="#070757" />
                                                 :
-                                                <Image style={{height: 40, width: 40}} source={{uri: peca.imgPeca}} />
+                                                <Image style={{ height: 40, width: 40 }} source={{ uri: peca.imgPeca }} />
                                         }
                                     </TouchableOpacity>
                                 </View>
@@ -223,7 +255,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 3,
-        marginTop: 20,
+        marginVertical: 20
     },
 
     txtBtnConcluir: {
