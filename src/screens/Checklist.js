@@ -105,7 +105,7 @@ export default function Checklist({ route, navigation }) {
         }).then(response => console.debug(response))
 
 
-        listaPecas.map(async peca => {
+        listaPecas.map(async (peca) => {
 
             delete peca.idTipoPecaNavigation
             delete peca.logAlteracaos
@@ -122,13 +122,27 @@ export default function Checklist({ route, navigation }) {
             formData.append('EstadoPeca', peca.estadoPeca)
             formData.append('ImgPeca', peca.imgPeca)
 
-            console.debug(formData.entries)
-            await api.put('/pecas', formData, {
+            console.debug('fliuvbeirvb')
+            // console.debug(formData.get('arquivo'))
+
+            await axios({
+                data: formData,
+                url: 'https://1d0e-189-19-219-247.sa.ngrok.io/api/pecas',
+                method: 'PUT',
                 headers: {
-                    'Content-Type': 'multipart/form-data',
-                    Authorization: 'Bearer ' + token
+                    'Content-Type': 'multipart/form-data;',
+                    // 'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                    // encType: 'multipart/form-data'
                 }
-            }).then(response => console.debug(response))
+            }).then(response => console.debug(response)).catch(err => console.debug(err))
+
+            // await api.put('/pecas', formData, {
+            //     headers: {
+            //         'Content-Type': 'multipart/form-data',
+            //         Authorization: 'Bearer ' + token
+            //     }
+            // }).then(response => console.debug(response))
 
             // await axios('/pecas', {
             //     method: 'PUT',
