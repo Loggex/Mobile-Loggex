@@ -15,6 +15,7 @@ export default function OCR({ navigation }) {
     const [type, setType] = useState(Camera.Constants.Type.back);
     const [status, requestPermission] = MediaLibrary.usePermissions();
     const [placa, setPlaca] = useState('')
+    const [tempVeiculo, setTempVeiculo] = useState({})
     const [veiculo, setVeiculo] = useState({})
     const [teste, setTeste] = useState({})
 
@@ -39,10 +40,15 @@ export default function OCR({ navigation }) {
         modalizeRef.current?.open();
     }
 
+    function onClose() {
+        modalizeRef.current?.close();
+        setTempVeiculo({})
+    }
+
     const TakePicture = async () => {
         const foto = await ref.current.takePictureAsync()
 
-        onOpen()
+        // onOpen()
 
         let resultado;
 
@@ -60,29 +66,38 @@ export default function OCR({ navigation }) {
         await FileSystem.uploadAsync("https://ocr-loggex.cognitiveservices.azure.com/vision/v3.2/ocr?language=pt&detectOrientation=true&model-version=latest", foto.uri, options)
             .then(response => {
                 resultado = FiltrarOCR(response.body);
+                BuscarVeiculo(resultado)
             })
             .catch(erro => console.debug(erro))
 
-        console.debug(resultado)
     }
 
-    async function BuscarVeiculo() {
+    async function BuscarVeiculo(placa) {
         const token = await tokenUsuario()
 
-        const placa = 'CZN4542'
+        // const placa = 'CZN4542'
 
         const requisicao = await api.get(`/veiculos/placa/${placa}`, {
             headers: {
                 Authorization: 'Bearer ' + token
             }
+        }).then(async resposta => {
+            if (resposta.status !== 404) {
+                console.debug(resposta.status)
+                await AsyncStorageLib.setItem("veiculo-atual", JSON.stringify(resposta.data))
+                setTempVeiculo(resposta.data)
+                onOpen()
+            } else {
+                console.debug(resposta.status)
+            }
         })
 
-        console.debug(requisicao.data)
+        // console.debug(requisicao.data)
         // setVeiculo(requisicao.data)
-        await AsyncStorageLib.setItem("veiculo-atual", JSON.stringify(requisicao.data))
+        // await AsyncStorageLib.setItem("veiculo-atual", JSON.stringify(requisicao.data))
         // await AsyncStorageLib.removeItem("veiculo-atual")
 
-        onOpen()
+        // onOpen()
     }
 
     async function BuscaVeiculoAtual() {
@@ -91,22 +106,25 @@ export default function OCR({ navigation }) {
     }
 
     const FiltrarOCR = (obj) => {
-        let resultado;
-        let teste = JSON.parse(obj)
-        // console.debug("foi aqui")
-        // console.debug(teste.language)
+        try {
+            let resultado;
+            let teste = JSON.parse(obj)
 
-        teste.regions.forEach(region => {
-            region.lines.forEach(line => {
-                line.words.forEach(word => {
-                    if (word.text.length >= 7 && isNaN(Number(word.text.slice(-2))) !== true) {
-                        resultado = word.text.slice(-7);
-                    }
+            teste.regions.forEach(region => {
+                region.lines.forEach(line => {
+                    line.words.forEach(word => {
+                        if (word.text.length >= 7 && isNaN(Number(word.text.slice(-2))) !== true) {
+                            resultado = word.text.slice(-7);
+                        }
+                    });
                 });
             });
-        });
 
-        return resultado;
+            return resultado;
+        } catch (error) {
+            console.debug('aqui não foi não')
+        }
+
     }
 
     async function Limpar() {
@@ -135,17 +153,17 @@ export default function OCR({ navigation }) {
                                 Veículo encontrado:
                             </Text>
                             <Text style={styles.nomeVeiculo}>
-                                {veiculo?.idTipoVeiculoNavigation.modeloVeiculo}
+                                {tempVeiculo.idTipoVeiculoNavigation?.modeloVeiculo}
                             </Text>
                         </View>
 
                         <View style={styles.modalBtns}>
-                            <TouchableOpacity style={styles.btnModal}>
+                            <TouchableOpacity style={styles.btnModal} onPress={() => setVeiculo(tempVeiculo)}>
                                 <Text style={styles.txtBtnModal1}>
                                     Confirmar
                                 </Text>
                             </TouchableOpacity>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => onClose()}>
                                 <Text style={styles.txtBtnModal2}>
                                     Tentar novamente
                                 </Text>
@@ -164,7 +182,7 @@ export default function OCR({ navigation }) {
                     ref={ref}
                 >
                 </Camera>
-                <TouchableOpacity onPress={() => BuscarVeiculo()} style={styles.btnFoto}>
+                <TouchableOpacity onPress={() => TakePicture()} style={styles.btnFoto}>
                     <Text style={styles.btnTxt}>Tirar Foto</Text>
                 </TouchableOpacity>
             </View>

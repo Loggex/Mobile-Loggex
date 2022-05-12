@@ -92,11 +92,11 @@ export default function Checklist({ route, navigation }) {
     AtualizarEstados = async () => {
         const token = await tokenUsuario()
 
-        if (rota.idSituacao === 1) {
-            rota.idSituacao = 2
-        } else if (rota.idSituacao === 2) {
-            rota.idSituacao = 3
-        }
+        // if (rota.idSituacao === 1) {
+        //     rota.idSituacao = 2
+        // } else if (rota.idSituacao === 2) {
+        //     rota.idSituacao = 3
+        // }
 
         await api.put(`/rotas/${rota.idRota}`, rota, {
             headers: {
@@ -123,19 +123,19 @@ export default function Checklist({ route, navigation }) {
             formData.append('ImgPeca', peca.imgPeca)
 
             console.debug('fliuvbeirvb')
-            // console.debug(formData.get('arquivo'))
+            console.debug(peca.imgPeca)
 
             await axios({
                 data: formData,
-                url: 'https://1d0e-189-19-219-247.sa.ngrok.io/api/pecas',
+                url: 'https://ad51-2804-431-c7de-cf25-589-d0da-c908-7722.sa.ngrok.io/api/pecas',
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'multipart/form-data;',
+                    'Content-Type': 'multipart/form-data; boundary=--WebKitFormBoundaryNvGcT5hiEi7d9qBR',
                     // 'Accept': 'application/json',
                     'Authorization': 'Bearer ' + token
                     // encType: 'multipart/form-data'
                 }
-            }).then(response => console.debug(response)).catch(err => console.debug(err))
+            }).then(response => console.debug(response)).catch(err => console.debug(JSON.stringify(err)))
 
             // await api.put('/pecas', formData, {
             //     headers: {

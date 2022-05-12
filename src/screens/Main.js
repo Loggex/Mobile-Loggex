@@ -19,6 +19,14 @@ export default function Main() {
 
                 screenOptions={({ route }) => ({
                     tabBarIcon: ({ focused }) => {
+                        if (route.name === 'ListaRotas') {
+                            return (
+                                <View style={styles.aba}>
+                                    <FontAwesome5 name="route" size={26} color={focused ? "#060657" : "#796F6F"} />
+                                    <Text style={styles.txtAba} color={focused ? "#060657" : "#796F6F"}>Rotas</Text>
+                                </View>
+                            )
+                        }
                         if (route.name === 'OCR') {
                             return (
                                 <View style={styles.aba}>
@@ -35,14 +43,7 @@ export default function Main() {
                                 </View>
                             )
                         }
-                        if (route.name === 'ListaRotas') {
-                            return (
-                                <View style={styles.aba}>
-                                    <FontAwesome5 name="route" size={26} color={focused ? "#060657" : "#796F6F"} />
-                                    <Text style={styles.txtAba} color={focused ? "#060657" : "#796F6F"}>Rotas</Text>
-                                </View>
-                            )
-                        }
+
                     },
 
                     headerShown: false,
