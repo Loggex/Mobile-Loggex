@@ -244,6 +244,10 @@ export default function Checklist({ route, navigation }) {
                         )
                     })
                 }
+                <View style={styles.viewComentario}>
+                    <Text style={styles.txtComentario}>Observações gerais:</Text>
+                    <TextInput multiline={true} style={styles.inserirComentario} />
+                </View>
 
                 <TouchableOpacity onPress={() => AtualizarEstados()} style={styles.concluirChecklist}>
                     <Text style={styles.txtBtnConcluir}>Concluir</Text>
@@ -261,6 +265,30 @@ export default function Checklist({ route, navigation }) {
 
 }
 const styles = StyleSheet.create({
+
+    txtComentario:{
+        fontFamily: 'Poppins_700Bold',
+        fontSize: 15,
+        paddingTop: 3
+    },
+
+    viewComentario: {
+        marginTop: 20,
+        height: 190,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between'
+    },
+
+    inserirComentario: {
+        backgroundColor: '#F3F2F2',
+        height: 150,
+        borderWidth: 2,
+        borderRadius: 5,
+        borderColor: "#CECECE",
+        padding: "3%",
+        textAlignVertical: 'top'
+    },
 
     concluirChecklist: {
         width: '100%',
