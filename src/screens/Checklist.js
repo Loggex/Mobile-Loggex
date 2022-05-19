@@ -114,8 +114,8 @@ export default function Checklist({ route, navigation }) {
             let match = /\.(\w+)$/.exec(filename);
             let type = match ? `image/${match[1]}` : `image`;
 
-            var formData = new FormData();
-            formData.append('arquivo', { uri: peca.imgPeca, name: filename, type });
+            const formData = new FormData();
+            formData.append('arquivo', { uri: peca.imgPeca, name: filename, type: type });
             formData.append('IdPeca', peca.idPeca)
             formData.append('IdTipoPeca', peca.idTipoPeca)
             formData.append('IdVeiculo', peca.idVeiculo)
@@ -125,17 +125,42 @@ export default function Checklist({ route, navigation }) {
             console.debug('fliuvbeirvb')
             console.debug(peca.imgPeca)
 
+            // await api.put("/pecas", formData, {
+            //     headers: {
+            //         'Content-Type': 'multipart/form-data',
+            //         'Authorization': 'Bearer ' + token
+            //     },
+            //     transformRequest: (data, headers) => {
+            //         return formData; 
+            //     },
+            // }).then(response => console.debug(response)).catch(err => console.debug(JSON.stringify(err)))
+
             await axios({
                 data: formData,
-                url: 'https://ad51-2804-431-c7de-cf25-589-d0da-c908-7722.sa.ngrok.io/api/pecas',
+                url: 'https://eca0-189-19-219-247.sa.ngrok.io/api/pecas',
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'multipart/form-data; boundary=--WebKitFormBoundaryNvGcT5hiEi7d9qBR',
+                    // 'Content-Type': 'multipart/form-data',
                     // 'Accept': 'application/json',
+                    'Accept': 'application/json',
                     'Authorization': 'Bearer ' + token
                     // encType: 'multipart/form-data'
                 }
             }).then(response => console.debug(response)).catch(err => console.debug(JSON.stringify(err)))
+
+            // await fetch('https://eca0-189-19-219-247.sa.ngrok.io/api/pecas', {
+            //     headers: {
+            //         // 'Content-Type': 'multipart/form-data; boundary=--WebKitFormBoundaryNvGcT5hiEi7d9qBR',
+            //         'Content-Type': 'multipart/form-data',
+            //         // 'Accept': 'application/json',
+            //         'Accept': 'application/json',
+            //         'Authorization': 'Bearer ' + token
+            //         // encType: 'multipart/form-data'
+            //     },
+            //     method: 'PUT',
+            //     body: formData
+            // }).then(response => console.debug(response)).catch(err => console.debug(JSON.stringify(err)))
 
             // await api.put('/pecas', formData, {
             //     headers: {
@@ -266,7 +291,7 @@ export default function Checklist({ route, navigation }) {
 }
 const styles = StyleSheet.create({
 
-    txtComentario:{
+    txtComentario: {
         fontFamily: 'Poppins_700Bold',
         fontSize: 15,
         paddingTop: 3
