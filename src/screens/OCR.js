@@ -66,6 +66,7 @@ export default function OCR({ navigation }) {
         await FileSystem.uploadAsync("https://ocr-loggex.cognitiveservices.azure.com/vision/v3.2/ocr?language=pt&detectOrientation=true&model-version=latest", foto.uri, options)
             .then(response => {
                 resultado = FiltrarOCR(response.body);
+                console.debug(resultado)
                 BuscarVeiculo(resultado)
             })
             .catch(erro => console.debug(erro))

@@ -88,7 +88,6 @@ export default function Checklist({ route, navigation }) {
         // });
     }
 
-
     AtualizarEstados = async () => {
         const token = await tokenUsuario()
 
@@ -120,34 +119,27 @@ export default function Checklist({ route, navigation }) {
             formData.append('IdTipoPeca', peca.idTipoPeca)
             formData.append('IdVeiculo', peca.idVeiculo)
             formData.append('EstadoPeca', peca.estadoPeca)
-            formData.append('ImgPeca', peca.imgPeca)
 
-            console.debug('fliuvbeirvb')
-            console.debug(peca.imgPeca)
-
-            // await api.put("/pecas", formData, {
-            //     headers: {
-            //         'Content-Type': 'multipart/form-data',
-            //         'Authorization': 'Bearer ' + token
-            //     },
-            //     transformRequest: (data, headers) => {
-            //         return formData; 
-            //     },
-            // }).then(response => console.debug(response)).catch(err => console.debug(JSON.stringify(err)))
-
-            await axios({
-                data: formData,
-                url: 'https://eca0-189-19-219-247.sa.ngrok.io/api/pecas',
-                method: 'PUT',
+            await api.put("/pecas", formData, {
                 headers: {
-                    'Content-Type': 'multipart/form-data; boundary=--WebKitFormBoundaryNvGcT5hiEi7d9qBR',
-                    // 'Content-Type': 'multipart/form-data',
-                    // 'Accept': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': 'Bearer ' + token
-                    // encType: 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': 'Bearer ' + token,
                 }
             }).then(response => console.debug(response)).catch(err => console.debug(JSON.stringify(err)))
+
+            // await axios({
+            //     data: formData,
+            //     url: 'https://e7bd-2804-431-c7df-bc6c-594e-a550-1cb9-43ec.sa.ngrok.io/api/pecas',
+            //     method: 'PUT',
+            //     headers: {
+            //         'Content-Type': 'multipart/form-data',
+            //         // 'Content-Type': 'multipart/form-data',
+            //         // 'Accept': 'application/json',
+            //         // 'Accept': 'application/json',
+            //         'Authorization': 'Bearer ' + token
+            //         // encType: 'multipart/form-data'
+            //     }
+            // }).then(response => console.debug(response)).catch(err => console.debug(JSON.stringify(err)))
 
             // await fetch('https://eca0-189-19-219-247.sa.ngrok.io/api/pecas', {
             //     headers: {
@@ -258,7 +250,7 @@ export default function Checklist({ route, navigation }) {
                                     <Text style={styles.label}>{peca.idTipoPecaNavigation.nomePeça}</Text>
                                     <TouchableOpacity onPress={() => takePhotoAndUpload(peca.idPeca)}>
                                         {
-                                            peca.imgPeca === '.../teste.png' ?
+                                            peca.imgPeca.startsWith('file:') === false ?
                                                 <MaterialIcons name="add-photo-alternate" size={33} color="#070757" />
                                                 :
                                                 <Image style={{ height: 40, width: 40 }} source={{ uri: peca.imgPeca }} />
