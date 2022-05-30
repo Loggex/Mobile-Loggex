@@ -21,6 +21,7 @@ export default function OCR({ navigation }) {
 
     const ref = useRef(null)
     const modalizeRef = useRef(null)
+    const modalizeRefError = useRef(null)
 
     useEffect(() => {
         (async () => {
@@ -38,6 +39,14 @@ export default function OCR({ navigation }) {
 
     function onOpen() {
         modalizeRef.current?.open();
+    }
+
+    function Error() {
+        modalizeRefError.current?.open();
+    }
+
+    function CloseError() {
+        modalizeRefError.current?.close();
     }
 
     function onClose() {
@@ -83,12 +92,13 @@ export default function OCR({ navigation }) {
                 Authorization: 'Bearer ' + token
             }
         }).then(async resposta => {
-            if (resposta.status !== 404) {
+            if (resposta.status === 200) {
                 console.debug(resposta.status)
                 await AsyncStorageLib.setItem("veiculo-atual", JSON.stringify(resposta.data))
                 setTempVeiculo(resposta.data)
                 onOpen()
             } else {
+                Error()
                 console.debug(resposta.status)
             }
         })
@@ -125,7 +135,6 @@ export default function OCR({ navigation }) {
         } catch (error) {
             console.debug('aqui não foi não')
         }
-
     }
 
     async function Limpar() {
@@ -146,6 +155,7 @@ export default function OCR({ navigation }) {
                 <Modalize
                     ref={modalizeRef}
                     snapPoint={500}
+                    panGestureEnabled={false}
                 >
                     <Image style={styles.image} source={imgCaminhao} />
                     <View style={styles.modal} >
@@ -170,7 +180,21 @@ export default function OCR({ navigation }) {
                                 </Text>
                             </TouchableOpacity>
                         </View>
-
+                    </View>
+                </Modalize>
+                <Modalize
+                    ref={modalizeRefError}
+                    snapPoint={370}
+                    panGestureEnabled={false}
+                >
+                    <View style={styles.modalError} >
+                        <LottieView style={{ width: '50%' }} source={require('../assets/lottie/lf30_editor_wnwgpvq4.json')} autoPlay loop={false} />
+                        <Text>Nenhum veículo foi encontrado</Text>
+                        <TouchableOpacity style={styles.btnModal} onPress={() => CloseError()}>
+                            <Text style={styles.txtBtnModal1}>
+                                Tentar novamente
+                            </Text>
+                        </TouchableOpacity>
                     </View>
                 </Modalize>
                 <View style={styles.txtOcr}>
@@ -283,7 +307,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         flexDirection: 'column',
-        padding: '4%'
+        padding: '4%',
+    },
+
+    modalError: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexDirection: 'column',
+        padding: '4%',
+        height: 350
     },
 
     image: {
