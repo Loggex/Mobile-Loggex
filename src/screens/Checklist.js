@@ -6,7 +6,7 @@ import { Poppins_700Bold, Poppins_400Regular } from '@expo-google-fonts/poppins'
 import { LinearGradient } from 'expo-linear-gradient';
 import { CheckBox } from 'react-native-elements';
 import { MaterialIcons } from '@expo/vector-icons';
-import api from '../services/api';
+import api, { url } from '../services/api';
 import { tokenUsuario } from '../services/auth';
 import AsyncStorageLib from '@react-native-async-storage/async-storage';
 import * as ImagePicker from 'expo-image-picker';
@@ -120,12 +120,31 @@ export default function Checklist({ route, navigation }) {
             formData.append('IdVeiculo', peca.idVeiculo)
             formData.append('EstadoPeca', peca.estadoPeca)
 
+            var comparacaoFormData = new FormData()
+
+            comparacaoFormData.append('imagemBase', { uri: url + peca.imgPecaC, name: peca.imgPecaC.split('.')[0], type: `image/${peca.imgPecaC.split('.')[1]}`})
+            comparacaoFormData.append('imagemNova', { uri: peca.imgPeca, name: filename, type: type })
+
+            await axios({
+                url: 'http://loggex.brazilsouth.cloudapp.azure.com/comparar',
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
+                data: comparacaoFormData
+            }).then(response => console.warn(response.data))
+                .catch(error => console.debug(JSON.stringify(error)))
+
             await api.put("/pecas", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': 'Bearer ' + token,
                 }
             }).then(response => console.debug(response)).catch(err => console.debug(JSON.stringify(err)))
+
+
+
+
 
             // await axios({
             //     data: formData,
