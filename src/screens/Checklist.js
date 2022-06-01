@@ -122,10 +122,10 @@ export default function Checklist({ route, navigation }) {
 
             var comparacaoFormData = new FormData()
 
-            comparacaoFormData.append('imagemBase', { uri: url + peca.imgPecaC, name: peca.imgPecaC.split('.')[0], type: `image/${peca.imgPecaC.split('.')[1]}`})
+            comparacaoFormData.append('imagemBase', { uri: url + peca.imgPecaC, name: peca.imgPecaC.split('.')[0], type: `image/${peca.imgPecaC.split('.')[1]}` })
             comparacaoFormData.append('imagemNova', { uri: peca.imgPeca, name: filename, type: type })
 
-            await axios({
+            const comparacaoImagens = await axios({
                 url: 'http://loggex.brazilsouth.cloudapp.azure.com/comparar',
                 method: 'POST',
                 headers: {
@@ -135,16 +135,14 @@ export default function Checklist({ route, navigation }) {
             }).then(response => console.warn(response.data))
                 .catch(error => console.debug(JSON.stringify(error)))
 
+            // console.debug(comparacaoImagens.data)
+
             await api.put("/pecas", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': 'Bearer ' + token,
                 }
             }).then(response => console.debug(response)).catch(err => console.debug(JSON.stringify(err)))
-
-
-
-
 
             // await axios({
             //     data: formData,
@@ -257,15 +255,15 @@ export default function Checklist({ route, navigation }) {
                     listaPecas.map((peca) => {
                         return (
                             <View style={styles.checkboxContainer}>
-                                <CheckBox
-                                    checkedIcon="check"
-                                    uncheckedIcon="square-o"
-                                    checkedColor="green"
-                                    checked={peca.estadoPeca}
-                                    onPress={() => CheckPeca(peca.idPeca)}
-                                    style={styles.checkbox}
-                                />
                                 <View style={styles.foto}>
+                                    <CheckBox
+                                        checkedIcon="check"
+                                        uncheckedIcon="square-o"
+                                        checkedColor="green"
+                                        checked={peca.estadoPeca}
+                                        onPress={() => CheckPeca(peca.idPeca)}
+                                        style={styles.checkbox}
+                                    />
                                     <Text style={styles.label}>{peca.idTipoPecaNavigation.nomePeça}</Text>
                                     <TouchableOpacity onPress={() => takePhotoAndUpload(peca.idPeca)}>
                                         {
@@ -372,11 +370,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: '4%',
     },
     titulos: {
-
         height: 150,
         width: '100%',
-    },
-    imageVoltar: {
     },
 
     box: {
@@ -389,7 +384,7 @@ const styles = StyleSheet.create({
     containerChecklist: {
         color: '#000',
         paddingTop: 30,
-        width: '100%',
+        // width: '100%',
         paddingHorizontal: '4%',
         display: 'flex',
         flexDirection: 'column',
@@ -420,11 +415,9 @@ const styles = StyleSheet.create({
     },
 
     foto: {
-        width: '75%',
+        width: '100%',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
     }
-
-
 });

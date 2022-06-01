@@ -1,9 +1,9 @@
 import axios from "axios";
 
-export const url = 'https://dec1-2804-431-c7de-6ed8-f5af-a415-3f3-de2f.sa.ngrok.io/staticfiles/images/'
-
 const api = axios.create({
-    baseURL: 'https://dec1-2804-431-c7de-6ed8-f5af-a415-3f3-de2f.sa.ngrok.io/api',
+    baseURL: 'https://1b20-189-19-219-247.sa.ngrok.io/api',
 });
+
+export const url = 'https://1b20-189-19-219-247.sa.ngrok.io/staticfiles/images/'
 
 export default api;

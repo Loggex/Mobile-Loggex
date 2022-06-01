@@ -107,8 +107,6 @@ export default function Perfil({ navigation }) {
 
                         </TouchableOpacity>
                     </View>
-
-
                 </LinearGradient>
             </View>
 
