@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Image, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Image, TextInput, Modal, Alert, Pressable } from 'react-native';
 import { useFonts, Sen_400Regular, Sen_800ExtraBold, Sen_700Bold } from '@expo-google-fonts/sen';
 import { Poppins_700Bold, Poppins_400Regular } from '@expo-google-fonts/poppins';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -14,7 +14,8 @@ import axios from 'axios';
 
 export default function Checklist({ route, navigation }) {
     const rota = route.params?.rotaAtual
-    const [isSelected, setSelected] = useState(false)
+    const [modalVisible, setModalVisible] = useState(false);
+    const [imagemModal, setImagemModal] = useState("")
     const [listaPecas, setListaPecas] = useState(route.params?.rotaAtual.idVeiculoNavigation.pecas)
     const [veiculo, setVeiculo] = useState('')
     let [fontsLoaded] = useFonts({
@@ -222,11 +223,49 @@ export default function Checklist({ route, navigation }) {
         setListaPecas(updateListaPeca)
     }
 
+    AbrirModal = (enderecoImagem) => {
+        setImagemModal(url + enderecoImagem)
+        setModalVisible(true)
+    }
+
     // useEffect(ListarPecas, []);
     // useEffect(console.debug('teste'), [])
 
     return (
         <ScrollView style={styles.container}>
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    Alert.alert("Modal has been closed.");
+                    setModalVisible(!modalVisible);
+                }}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text style={styles.txtModal}>
+                            Ao registrar uma foto da respectiva peça, busque o ângulo e a distância semelhantes aos da imagem abaixo:
+                        </Text>
+                        <Image
+                            style={styles.imagemExemplo}
+                            source={{uri: imagemModal}}
+                        />
+                        <Pressable
+                            style={[styles.button, styles.buttonClose]}
+                            onPress={() => setModalVisible(!modalVisible)}
+                        >
+                            <Text style={styles.textStyle}>Entendido</Text>
+                        </Pressable>
+                    </View>
+                </View>
+            </Modal>
+            {/* <Pressable
+                style={[styles.button, styles.buttonOpen]}
+                onPress={() => setModalVisible(true)}
+            >
+                <Text style={styles.textStyle}>Show Modal</Text>
+            </Pressable> */}
             <View style={styles.boxTitulo}>
                 <View style={styles.titulos}>
                     <LinearGradient
@@ -264,7 +303,9 @@ export default function Checklist({ route, navigation }) {
                                         onPress={() => CheckPeca(peca.idPeca)}
                                         style={styles.checkbox}
                                     />
-                                    <Text style={styles.label}>{peca.idTipoPecaNavigation.nomePeça}</Text>
+                                    <TouchableOpacity onPress={() => AbrirModal(peca.imgPecaC)}>
+                                        <Text style={styles.label}>{peca.idTipoPecaNavigation.nomePeça}</Text>
+                                    </TouchableOpacity>
                                     <TouchableOpacity onPress={() => takePhotoAndUpload(peca.idPeca)}>
                                         {
                                             peca.imgPeca.startsWith('file:') === false ?
@@ -282,7 +323,6 @@ export default function Checklist({ route, navigation }) {
                     <Text style={styles.txtComentario}>Observações gerais:</Text>
                     <TextInput multiline={true} style={styles.inserirComentario} />
                 </View>
-
                 <TouchableOpacity onPress={() => AtualizarEstados()} style={styles.concluirChecklist}>
                     <Text style={styles.txtBtnConcluir}>Concluir</Text>
                 </TouchableOpacity>
@@ -299,6 +339,80 @@ export default function Checklist({ route, navigation }) {
 
 }
 const styles = StyleSheet.create({
+
+    imagemExemplo: {
+        width: '90%',
+        height: '80%',
+        borderRadius: 5
+    },
+
+    txtModal: {
+        color: '#000',
+        textAlign: 'center',
+        fontSize: 20,
+        fontFamily: 'Sen_400Regular',
+    },
+
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22,
+        backgroundColor: 'rgba(0, 0, 0, 0.33);'
+    },
+
+    modalView: {
+        margin: 20,
+        width: '90%',
+        height: '90%',
+        backgroundColor: "white",
+        borderRadius: 5,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+    },
+
+    button: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+        width: '30%',
+        height: 60,
+        backgroundColor: '#090959',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 3,
+        marginVertical: 20
+    },
+
+    buttonOpen: {
+        backgroundColor: "#F194FF",
+    },
+
+    buttonClose: {
+        backgroundColor: "#090959",
+    },
+
+    textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center"
+    },
+
+    modalText: {
+        marginBottom: 15,
+        textAlign: "center"
+    },
 
     txtComentario: {
         fontFamily: 'Poppins_700Bold',
@@ -394,9 +508,6 @@ const styles = StyleSheet.create({
         fontFamily: 'Sen_400Regular',
         fontSize: 16,
         color: '#888888'
-    },
-    checkbox: {
-
     },
 
     checkboxContainer: {

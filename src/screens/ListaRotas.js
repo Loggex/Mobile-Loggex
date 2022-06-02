@@ -520,16 +520,19 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        height: 230,
+        height: 300,
         marginVertical: 30
     },
 
     rota: {
         width: '100%',
-        height: 180,
+        height: 240,
         backgroundColor: '#fff',
         borderRadius: 3,
-        elevation: 10
+        elevation: 10,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between', 
     },
 
     txtRotas: {

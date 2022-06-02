@@ -72,7 +72,8 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'center',
         height: '100%',
-        justifyContent: 'space-evenly'
+        justifyContent: 'space-evenly',
+        width: 50
     },
 
     txtAba: {
