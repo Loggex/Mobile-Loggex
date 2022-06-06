@@ -69,9 +69,9 @@ const styles = StyleSheet.create({
     },
 
     imagemBack: {
-        width: '100%',
-        // height: 260
-        height: 560
+        // width: '100%',
+        height: 260
+        // height: 560
     },
 
     boxConteudo: {

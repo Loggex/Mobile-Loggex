@@ -280,7 +280,7 @@ export default function Checklist({ route, navigation }) {
                             >
                                 {/* <Image style={styles.imageVoltar} source={require('../assets/X.png')} /> */}
                             </TouchableOpacity>
-                            <Text style={styles.checklistInicial}>Checklist inicial</Text>
+                            <Text style={styles.checklistInicial}>Checklist</Text>
                         </View>
                         {/* <Text>{item.idTipoVeiculoNavigation.modeloVeiculo}</Text> */}
                         <Text style={styles.nomeVeiculo}>{veiculo}</Text>
@@ -326,7 +326,6 @@ export default function Checklist({ route, navigation }) {
                 <TouchableOpacity onPress={() => AtualizarEstados()} style={styles.concluirChecklist}>
                     <Text style={styles.txtBtnConcluir}>Concluir</Text>
                 </TouchableOpacity>
-
             </View>
 
 
@@ -341,8 +340,10 @@ export default function Checklist({ route, navigation }) {
 const styles = StyleSheet.create({
 
     imagemExemplo: {
-        width: '90%',
-        height: '80%',
+        // width: '90%',
+        // height: '80%',
+        width: '100%',
+        height: '50%',
         borderRadius: 5
     },
 
@@ -401,6 +402,7 @@ const styles = StyleSheet.create({
 
     buttonClose: {
         backgroundColor: "#090959",
+        width: '40%'
     },
 
     textStyle: {

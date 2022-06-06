@@ -520,13 +520,15 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        height: 300,
+        // height: 300,
+        height: 240,
         marginVertical: 30
     },
 
     rota: {
         width: '100%',
-        height: 240,
+        // height: 240,
+        height: 200,
         backgroundColor: '#fff',
         borderRadius: 3,
         elevation: 10,
