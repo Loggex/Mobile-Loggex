@@ -154,8 +154,8 @@ export default function OCR({ navigation }) {
             <View style={styles.container}>
                 <Modalize
                     ref={modalizeRef}
-                    snapPoint={500}
-                    // snapPoint={900}
+                    // snapPoint={500}
+                    snapPoint={900}
                     panGestureEnabled={false}
                 >
                     <Image style={styles.image} source={imgCaminhao} />
@@ -185,8 +185,8 @@ export default function OCR({ navigation }) {
                 </Modalize>
                 <Modalize
                     ref={modalizeRefError}
-                    snapPoint={370}
-                    // snapPoint={600}
+                    // snapPoint={370}
+                    snapPoint={600}
                     panGestureEnabled={false}
                 >
                     <View style={styles.modalError} >
@@ -236,8 +236,8 @@ const styles = StyleSheet.create({
 
     box: {
         width: '100%',
-        height: 370,
-        // height: 600,
+        // height: 370,
+        height: 600,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -319,16 +319,16 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         flexDirection: 'column',
         padding: '4%',
-        height: 350
-        // height: 590
+        // height: 350
+        height: 590
     },
 
     image: {
         width: '100%',
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
-        height: 230
-        // height: 500
+        // height: 230
+        height: 500
     },
 
     tituloModal: {

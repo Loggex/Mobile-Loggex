@@ -18,6 +18,7 @@ export default function Checklist({ route, navigation }) {
     const [imagemModal, setImagemModal] = useState("")
     const [listaPecas, setListaPecas] = useState(route.params?.rotaAtual.idVeiculoNavigation.pecas)
     const [veiculo, setVeiculo] = useState('')
+    const [semelhanca, setSemelhanca] = useState('')
     let [fontsLoaded] = useFonts({
         Sen_700Bold,
         Sen_400Regular,
@@ -133,17 +134,23 @@ export default function Checklist({ route, navigation }) {
                     'Content-Type': 'multipart/form-data'
                 },
                 data: comparacaoFormData
-            }).then(response => console.warn(response.data))
+            }).then(async response => {
+                console.warn(parseFloat(response.data.substring(1, response.data.length - 4)))
+                formData.append('Semelhanca', parseFloat(response.data.substring(1, response.data.length - 4)))
+
+                await api.put("/pecas", formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'Authorization': 'Bearer ' + token,
+                    }
+                }).then(response => console.debug(response)).catch(err => console.debug(JSON.stringify(err)))
+
+            })
                 .catch(error => console.debug(JSON.stringify(error)))
 
-            // console.debug(comparacaoImagens.data)
+            console.debug(comparacaoImagens)
 
-            await api.put("/pecas", formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'Authorization': 'Bearer ' + token,
-                }
-            }).then(response => console.debug(response)).catch(err => console.debug(JSON.stringify(err)))
+
 
             // await axios({
             //     data: formData,
@@ -249,7 +256,7 @@ export default function Checklist({ route, navigation }) {
                         </Text>
                         <Image
                             style={styles.imagemExemplo}
-                            source={{uri: imagemModal}}
+                            source={{ uri: imagemModal }}
                         />
                         <Pressable
                             style={[styles.button, styles.buttonClose]}

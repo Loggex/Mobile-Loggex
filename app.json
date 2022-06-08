@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Loggex",
-    "slug": "Loggex",
+    "slug": "loggex",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,11 +25,17 @@
         "backgroundColor": "#FFFFFF"
       },
       "permissions": [
-        []
-      ]
+        "CAMERA",
+        "ACCESS_FINE_LOCATION",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "INTERNET"
+      ],
+      "package": "com.lucasaraujo_0.loggex"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": ""
   }
 }
